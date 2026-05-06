@@ -4,19 +4,19 @@ namespace TheCoreBattle
 {
     internal class ChatDisplay
     {
-        public void DisplayChat(Player player, Action currentAction)
+        public void DisplayChat(Character character, Action currentAction)
         {
-            DisplayTurn(player);
-            DisplayAction(player, currentAction);
+            DisplayTurn(character);
+            DisplayAction(character, currentAction);
         }
-        private void DisplayTurn(Player player)
+        private void DisplayTurn(Character character)
         {
-            Console.WriteLine($"It is {player.myCharacterList[0].Name} turn...");
+            Console.WriteLine($"It is {character.Name} turn...");
         }
-        private void DisplayAction(Player player, Action currentAction)
+        private void DisplayAction(Character character, Action currentAction)
         {
             if(currentAction.Name == "NOTHING")
-                Console.WriteLine($"{player.myCharacterList[0].Name} did NOTHING\n");
+                Console.WriteLine($"{character.Name} did NOTHING\n");
             else
             {
                 Console.WriteLine("Invalid action");
@@ -24,7 +24,7 @@ namespace TheCoreBattle
         }
         public string GetHeroName()
         {
-            string name;
+            string? name;
             while (true)
             {
                 Console.WriteLine("What is your name?");
