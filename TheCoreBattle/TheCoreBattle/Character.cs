@@ -4,17 +4,15 @@ namespace TheCoreBattle
     internal class Character
     {
         public string Name { get; set; }
-        public Team Team { get; set; }
+        public Team Team;
 
-        public Character(string name, Team team)
+        public Character(string name)
         {
             Name = name;
-            Team = team;
         }
         public override string ToString()
         {
-            return ($"Name is {Name}, Team is {Team}");
+            return ($"Name is {Name}");
         }
     }
-    public enum Team { Player, Enemy}
 }

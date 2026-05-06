@@ -3,29 +3,45 @@
     internal class GameManager
     {
         private ChatDisplay chatDisplay;
+        public Random random;
         public void Run()
         {
+            random = new Random();
             chatDisplay = new ChatDisplay();
-            List<Character> heroParty = new List<Character>();
-            List<Character> monsterParty = new List<Character>();
+            
+            Player playerOne = new Player(Team.Player);
+            Player playerTwo = new Player(Team.Enemy);
 
+            Player currentPlayer = playerOne;
 
-            Character playerSkeleton = new Character("SKELETON", Team.Player);
-            heroParty.Add(playerSkeleton);
-            Character enemySkeleton = new Character("SKELETON", Team.Enemy);
-            monsterParty.Add(enemySkeleton);
+            Character heroName = new Character(chatDisplay.GetHeroName());
+            playerOne.AddCharacterToMyTeam(heroName);
 
-            while(true)
+            Character enemySkeleton = new Character("SKELETON");
+            playerTwo.AddCharacterToMyTeam(enemySkeleton);
+
+            while (true)
             {
-                Console.ReadKey();
-                Turn(playerSkeleton);
-                Turn(enemySkeleton);
+                Turn(currentPlayer);
+                currentPlayer = (currentPlayer == playerOne) ?  playerTwo : playerOne;
             }
         }
-        private void Turn(Character character)
+        private void Turn(Player player)
         {
-            chatDisplay.DisplayChat(character);
-            Thread.Sleep(500);
+            DecideAction(player);
+            Thread.Sleep(1000);
         }
+        private void DecideAction(Player player)
+        {
+            string input = random.Next(2).ToString();
+
+            Action actionToMake = input switch
+            {
+                "1" => new Action("NOTHING"),
+                _ => new Action("NOTHING")
+            };
+            chatDisplay.DisplayChat(player, actionToMake);
+        }
+
     }
 }
