@@ -3,41 +3,44 @@ using System;
 
 namespace TheCoreBattle
 {
-    internal class Character
+    public abstract class Character
     {
-        public string Name { get; set; }
+        public abstract string Name { get; }
+        public abstract IAttack BasicAttack { get; }
         public Team Team;
-        public int MaxHealth { get; set; }
-        public int CurrentHealth { get; set; }
-
-        public Dictionary<int, Action> AvailableAction;
-
-        public Character(string name, int maxHealth)
+        
+        private int _hp;
+        public int CurrentHealth
         {
-            Name = name;
-            MaxHealth = maxHealth;
-            CurrentHealth = maxHealth;
-
-            CreateAttackDictionary();
+            get => _hp;
+            set => _hp = Math.Clamp(value, 0, MaxHealth);
         }
-
-        private void CreateAttackDictionary()
+        public int MaxHealth { get; }
+        public Character(int hp, Team team)
         {
-
-            AvailableAction = new Dictionary<int, Action>();
-            AvailableAction.Add(0, new Action("NOTHING"));
-
-            for (int i = 1; i < 2; i++)
-            {
-                Action actionToAdd = Name switch
-                {
-                    "SKELETON" => new Action("BONE CRUNCH"),
-                    "THE UNCODED ONE" => new Action("UNRAVELLING ATTACK"),
-                    _ => new Action("PUNCH")
-                };
-                AvailableAction.Add(i, actionToAdd);
-            }
+            MaxHealth = hp;
+            CurrentHealth = hp;
+            Team = team;
         }
+        //public Dictionary<int, Action> AvailableAction;
+
+        //private void CreateAttackDictionary()
+        //{
+
+        //    AvailableAction = new Dictionary<int, Action>();
+        //    AvailableAction.Add(0, new Action("NOTHING"));
+
+        //    for (int i = 1; i < 2; i++)
+        //    {
+        //        Action actionToAdd = Name switch
+        //        {
+        //            "SKELETON" => new Action("BONE CRUNCH"),
+        //            "THE UNCODED ONE" => new Action("UNRAVELLING ATTACK"),
+        //            _ => new Action("PUNCH")
+        //        };
+        //        AvailableAction.Add(i, actionToAdd);
+        //    }
+        //}
 
         public override string ToString()
         {

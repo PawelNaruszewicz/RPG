@@ -47,5 +47,19 @@
             }
             return name;
         }
+        public int GetGameMode()
+        {
+            int input;
+            Console.WriteLine("Hey, choose in what way do you want to play");
+            while (true)
+            {
+                Console.WriteLine("Press 1 to play Player vs PC");
+                Console.WriteLine("Press 2 to play PC vs PC");
+                Console.WriteLine("Press 3 to play Player vs Player");
+                input = Convert.ToInt32(Console.ReadLine());
+                if (input > 0 && input < 4) break;
+            }
+            return input;
+        }
     }
 }

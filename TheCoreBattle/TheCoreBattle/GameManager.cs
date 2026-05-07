@@ -49,8 +49,13 @@
             while (true)
             {
                 //TODO DODAĆ BOOL CZY GRACZ CZY AI GRA
-                //int input2 = Convert.ToInt32(Console.ReadLine());
-                int input2 = 1;
+                //int input2 = 1;
+
+                foreach (var action in character.AvailableAction)
+                {
+                    Console.WriteLine($"{action.Key} - {action.Value.Name}");
+                }
+                int input2 = Convert.ToInt32(Console.ReadLine());
                 if (character.AvailableAction.ContainsKey(input2))
                 {
                     actionToMake = character.AvailableAction[input2];
@@ -105,6 +110,19 @@
                 monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
             }
             currentBattleIndex++;
+        }
+        private void ChooseGameMode()
+        {
+            int chosenGameMode = chatDisplay.GetGameMode();
+            switch(chosenGameMode)
+            {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
         }
     }
 }

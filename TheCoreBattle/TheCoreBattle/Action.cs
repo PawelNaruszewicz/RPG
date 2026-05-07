@@ -1,26 +1,9 @@
 ﻿
 namespace TheCoreBattle
 {
-    internal class Action
+    public interface IAttack
     {
-        public string Name { get; set; }
-        public int DamageValue { get; set; }
-        private Random random = new Random();
-        public Action(string name)
-        {
-            Name = name;
-
-        }
-        public void DealDamage(Character character)
-        {
-            this.DamageValue = Name switch
-            {
-                "PUNCH" => 1,
-                "UNRAVELLING ATTACK" => random.Next(3),
-                "BONE CRUNCH" => random.Next(2)
-            };
-
-            character.CurrentHealth -= this.DamageValue;
-        }
+        abstract string Name { get; }
+        abstract int DamageValue { get; set; }
     }
 }
