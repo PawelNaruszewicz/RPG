@@ -4,6 +4,9 @@
     {
         private ChatDisplay? chatDisplay;
         public Random? random;
+        private bool RunGame = true;
+        private int currentBattleIndex = 0;
+        private Player monsterPlayer;
         public void Run()
         {
             random = new Random();
@@ -11,48 +14,41 @@
 
             Player playerOne = new Player(Team.Player);
             Player playerTwo = new Player(Team.Enemy);
+            monsterPlayer = playerTwo;
 
             Player currentPlayer = playerOne;
             Player oppositePlayer = playerTwo;
 
             Character heroName = new Character(chatDisplay.GetHeroName(), 25);
             playerOne.AddCharacterToMyTeam(heroName);
+            CreateEnemiesForCurrentBattle();
 
-            Character enemySkeleton = new Character("SKELETON", 5);
-            playerTwo.AddCharacterToMyTeam(enemySkeleton);
-            Character enemySkeleton2 = new Character("SKELETON", 5);
-            playerTwo.AddCharacterToMyTeam(enemySkeleton2);
 
-            while (true)
+
+            while (RunGame)
             {
-                //Console.WriteLine($"BEFORE DEBUG CURRENT PLAYER -{currentPlayer.Team} / opposite - {oppositePlayer.Team}");
-
                 PlayTurn(currentPlayer, oppositePlayer);
                 currentPlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
                 oppositePlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
-                //Console.WriteLine($"AFTER DEBUG CURRENT PLAYER -{currentPlayer.Team} / opposite - {oppositePlayer.Team}");
             }
         }
         private void PlayTurn(Player currentPlayer, Player oppositePlayer)
         {
             for (int i = 0; i < currentPlayer.myCharacterList.Count; i++)
             {
-                DecideAction(currentPlayer.myCharacterList[i], oppositePlayer);
+                DecideAction(currentPlayer.myCharacterList[i], currentPlayer, oppositePlayer);
                 Thread.Sleep(1000);
             }
         }
-        private void DecideAction(Character character, Player oppositePlayer)
+        private void DecideAction(Character character, Player currentPlayer, Player oppositePlayer)
         {
             Action actionToMake;
             string input = random.Next(2).ToString();
 
-            //foreach(var availableActio in character.AvailableAction)
-            //{
-            //    Console.WriteLine($"ID - {availableActio.Key} Name of attack - {availableActio.Value.Name}");
-            //}
 
             while (true)
             {
+                //TODO DODAĆ BOOL CZY GRACZ CZY AI GRA
                 //int input2 = Convert.ToInt32(Console.ReadLine());
                 int input2 = 1;
                 if (character.AvailableAction.ContainsKey(input2))
@@ -63,23 +59,52 @@
             }
 
             actionToMake.DealDamage(oppositePlayer.myCharacterList[0]);
-            if (oppositePlayer.myCharacterList[0].CurrentHealth <= 0)
-            {
-                oppositePlayer.CharacterDied(oppositePlayer.myCharacterList[0]);
-            }
-
-            //TO DO - CHECK IF BATTLE IS OVER IF CHARACTER LIST IS 0, GAME CRASHES WHEN LAST SKELETON DIES
-            // REFACTOR CODE 
             chatDisplay.DisplayChat(character, actionToMake, oppositePlayer);
-
-            //Action actionToMake = input switch
-            //{
-            //    "1" => new Action("NOTHING"),
-            //    _ => new Action("NOTHING")
-            //};
-            //DealDamage(character, actionToMake);
-            //chatDisplay.DisplayChat(character, actionToMake);
+            
+            CheckIfCharacterDies(oppositePlayer);
+            CreateEnemiesForCurrentBattle();
+            CheckIfGameOver(currentPlayer, oppositePlayer);
         }
 
+        private void CheckIfCharacterDies(Player oppositePlayer)
+        {
+            if (oppositePlayer.myCharacterList[0].CurrentHealth <= 0)
+            {
+                chatDisplay.DisplayCharacterDeath(oppositePlayer.myCharacterList[0]);
+                oppositePlayer.CharacterDied(oppositePlayer.myCharacterList[0]);
+            }
+        }
+        private void CheckIfGameOver(Player player, Player playerTwo)
+        {
+            if (player.myCharacterList.Count == 0) EndGame(playerTwo, player);
+            else if (playerTwo.myCharacterList.Count == 0) EndGame(player, playerTwo);
+        }
+        private void EndGame(Player playerWon, Player playerLost)
+        {
+            chatDisplay.EndGameDisplay(playerWon, playerLost);
+            RunGame = false;
+        }
+        private void CreateEnemiesForCurrentBattle()
+        {
+            if (monsterPlayer.myCharacterList.Count != 0) return;
+            if (currentBattleIndex == 0)
+            {
+                Character enemySkeleton = new Character("SKELETON", 5);
+                monsterPlayer.AddCharacterToMyTeam(enemySkeleton);
+            }
+            else if (currentBattleIndex == 1)
+            {
+                Character enemySkeleton1 = new Character("SKELETON", 5);
+                Character enemySkeleton2 = new Character("SKELETON", 5);
+                monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
+                monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
+            }
+            else if(currentBattleIndex == 2)
+            {
+                Character theUncodedOne = new Character("THE UNCODED ONE", 15);
+                monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
+            }
+            currentBattleIndex++;
+        }
     }
 }

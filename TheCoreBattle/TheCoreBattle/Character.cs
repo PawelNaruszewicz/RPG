@@ -23,17 +23,6 @@ namespace TheCoreBattle
 
         private void CreateAttackDictionary()
         {
-            //AvailableAction = new Dictionary<int, Action>();
-            //AvailableAction.Add(0, new Action("NOTHING"));
-
-            //if (Name == "SKELETON")
-            //{
-            //    AvailableAction.Add(1, new Action("BONE CRUNCH"));
-            //}
-            //else
-            //{
-            //    AvailableAction.Add(1, new Action("PUNCH"));
-            //}
 
             AvailableAction = new Dictionary<int, Action>();
             AvailableAction.Add(0, new Action("NOTHING"));
@@ -43,11 +32,11 @@ namespace TheCoreBattle
                 Action actionToAdd = Name switch
                 {
                     "SKELETON" => new Action("BONE CRUNCH"),
+                    "THE UNCODED ONE" => new Action("UNRAVELLING ATTACK"),
                     _ => new Action("PUNCH")
                 };
                 AvailableAction.Add(i, actionToAdd);
             }
-
         }
 
         public override string ToString()

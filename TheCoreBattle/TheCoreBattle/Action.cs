@@ -16,6 +16,7 @@ namespace TheCoreBattle
             this.DamageValue = Name switch
             {
                 "PUNCH" => 1,
+                "UNRAVELLING ATTACK" => random.Next(3),
                 "BONE CRUNCH" => random.Next(2)
             };
 
