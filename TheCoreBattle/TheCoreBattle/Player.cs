@@ -15,6 +15,10 @@
             character.Team = Team;
             myCharacterList.Add(character);
         }
+        public void CharacterDied(Character characterToRemove)
+        {
+            myCharacterList.Remove(characterToRemove);
+        }
     }
     public enum Team { Player, Enemy }
 
