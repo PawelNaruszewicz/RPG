@@ -67,6 +67,9 @@
             {
                 oppositePlayer.CharacterDied(oppositePlayer.myCharacterList[0]);
             }
+
+            //TO DO - CHECK IF BATTLE IS OVER IF CHARACTER LIST IS 0, GAME CRASHES WHEN LAST SKELETON DIES
+            // REFACTOR CODE 
             chatDisplay.DisplayChat(character, actionToMake, oppositePlayer);
 
             //Action actionToMake = input switch
