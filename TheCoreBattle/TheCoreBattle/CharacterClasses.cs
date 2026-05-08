@@ -13,10 +13,10 @@ namespace TheCoreBattle
         public override IAttack BasicAttack => new BoneCrunch();
         public Skeleton() : base(5, Team.Enemy) { }
     }
-    internal class CharacterClasses : Character
+    internal class UncodedOne : Character
     {
         public override string Name => "THE UNCODED ONE";
         public override IAttack BasicAttack => new UnravellAttack();
-        public CharacterClasses() : base(15, Team.Enemy) { }
+        public UncodedOne() : base(15, Team.Enemy) { }
     }
 }

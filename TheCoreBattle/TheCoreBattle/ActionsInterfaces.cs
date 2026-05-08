@@ -14,14 +14,16 @@ namespace TheCoreBattle
     {
         public void Run(GameManager gameManager, Character character)
         {
-            Console.Write($"{character} did NOTHING");
+            Console.Write($"{character.Name} did NOTHING");
+            Console.WriteLine("DEBUG");
         }
     }
     public class UseAction: IAction
     {
         public void Run(GameManager gameManager, Character character)
         {
-            Console.Write($"{character} used ");
+            Console.Write($"{character} used {character.BasicAttack} on ...");
+
         }
     }
 }

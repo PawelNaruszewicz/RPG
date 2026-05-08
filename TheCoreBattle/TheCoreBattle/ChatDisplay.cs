@@ -2,24 +2,26 @@
 {
     internal class ChatDisplay
     {
-        public void DisplayChat(Character character, Action currentAction, Player oppositePlayer)
+        public void DisplayChat(Character character, int chosenAction, Player oppositePlayer,GameManager gameManager)
         {
             DisplayTurn(character);
-            DisplayAction(character, currentAction, oppositePlayer);
+            DisplayAction(character, chosenAction, oppositePlayer, gameManager);
         }
         private void DisplayTurn(Character character)
         {
             Console.WriteLine($"It is {character.Name} turn...");
         }
-        private void DisplayAction(Character character, Action currentAction, Player oppositePlayer)
+        private void DisplayAction(Character character, int chosenAction, Player oppositePlayer, GameManager gameManager)
         {
-            if (currentAction.Name == "NOTHING")
-                Console.WriteLine($"{character.Name} did NOTHING");
+            if (chosenAction == 2)
+                character.DoNothingAction.Run(gameManager, character);
             else
             {
-                Console.WriteLine($"{character.Name} used {currentAction.Name} on {oppositePlayer.myCharacterList[0].Name}");
-                Console.WriteLine($"{currentAction.Name} dealt {currentAction.DamageValue} to {oppositePlayer.myCharacterList[0].Name}");
-                Console.WriteLine($"{oppositePlayer.myCharacterList[0].Name} is at {oppositePlayer.myCharacterList[0].CurrentHealth} / {oppositePlayer.myCharacterList[0].MaxHealth} HP");
+                //character.BasicAttack.Name;
+                Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {oppositePlayer.myCharacterList[0].Name}");
+                //Console.WriteLine($"{character.Name} used {currentAction.Name} on {oppositePlayer.myCharacterList[0].Name}");
+                //Console.WriteLine($"{currentAction.Name} dealt {currentAction.DamageValue} to {oppositePlayer.myCharacterList[0].Name}");
+                //Console.WriteLine($"{oppositePlayer.myCharacterList[0].Name} is at {oppositePlayer.myCharacterList[0].CurrentHealth} / {oppositePlayer.myCharacterList[0].MaxHealth} HP");
             }
             Console.WriteLine();
         }

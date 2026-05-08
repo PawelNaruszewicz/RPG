@@ -5,10 +5,11 @@ namespace TheCoreBattle
 {
     public abstract class Character
     {
-        public abstract string Name { get; set; }
+        public abstract string Name { get; }
         public abstract IAttack BasicAttack { get; }
         public Team Team;
-        
+        public DoNothing DoNothingAction => new DoNothing();
+
         private int _hp;
         public int CurrentHealth
         {
@@ -22,7 +23,6 @@ namespace TheCoreBattle
             CurrentHealth = hp;
             Team = team;
         }
-
         public override string ToString()
         {
             return ($"Name is {Name}, Health is {CurrentHealth}, Team is {Team}, Max Health is {MaxHealth}");

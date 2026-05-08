@@ -19,7 +19,7 @@
             Player currentPlayer = playerOne;
             Player oppositePlayer = playerTwo;
 
-            Character heroName = new Hero();
+            Character heroName = new Hero(chatDisplay.GetHeroName());
             playerOne.AddCharacterToMyTeam(heroName);
             CreateEnemiesForCurrentBattle();
 
@@ -42,29 +42,27 @@
         }
         private void DecideAction(Character character, Player currentPlayer, Player oppositePlayer)
         {
-            Action actionToMake;
+            int actionToMake;
             string input = random.Next(2).ToString();
-
 
             while (true)
             {
                 //TODO DODAĆ BOOL CZY GRACZ CZY AI GRA
                 //int input2 = 1;
+                Console.WriteLine("Decide which action you want to make");
+                Console.WriteLine($"1 - {character.BasicAttack.Name}");
+                Console.WriteLine($"2 - Do Nothing");
 
-                foreach (var action in character.AvailableAction)
-                {
-                    Console.WriteLine($"{action.Key} - {action.Value.Name}");
-                }
+
                 int input2 = Convert.ToInt32(Console.ReadLine());
-                if (character.AvailableAction.ContainsKey(input2))
+                if (input2 == 1 || input2 == 2)
                 {
-                    actionToMake = character.AvailableAction[input2];
+                    actionToMake = input2;
                     break;
                 }
             }
 
-            actionToMake.DealDamage(oppositePlayer.myCharacterList[0]);
-            chatDisplay.DisplayChat(character, actionToMake, oppositePlayer);
+            chatDisplay.DisplayChat(character, actionToMake, oppositePlayer, this);
             
             CheckIfCharacterDies(oppositePlayer);
             CreateEnemiesForCurrentBattle();
@@ -97,18 +95,18 @@
                 Character enemySkeleton = new Skeleton();
                 monsterPlayer.AddCharacterToMyTeam(enemySkeleton);
             }
-            //else if (currentBattleIndex == 1)
-            //{
-            //    Character enemySkeleton1 = new Character("SKELETON", 5);
-            //    Character enemySkeleton2 = new Character("SKELETON", 5);
-            //    monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
-            //    monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
-            //}
-            //else if(currentBattleIndex == 2)
-            //{
-            //    Character theUncodedOne = new Character("THE UNCODED ONE", 15);
-            //    monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
-            //}
+            else if (currentBattleIndex == 1)
+            {
+                Character enemySkeleton1 = new Skeleton();
+                Character enemySkeleton2 = new Skeleton();
+                monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
+                monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
+            }
+            else if (currentBattleIndex == 2)
+            {
+                Character theUncodedOne = new UncodedOne();
+                monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
+            }
             currentBattleIndex++;
         }
         private void ChooseGameMode()
