@@ -17,8 +17,10 @@
                 character.DoNothingAction.Run(gameManager, character);
             else
             {
-                //character.BasicAttack.Name;
                 Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {oppositePlayer.myCharacterList[0].Name}");
+                Console.WriteLine($"{character.BasicAttack.Name} dealt {character.BasicAttack.DamageValue} to {oppositePlayer.myCharacterList[0].Name}");
+                Console.WriteLine($"{oppositePlayer.myCharacterList[0].Name} is at {oppositePlayer.myCharacterList[0].CurrentHealth} / {oppositePlayer.myCharacterList[0].MaxHealth} HP");
+
                 //Console.WriteLine($"{character.Name} used {currentAction.Name} on {oppositePlayer.myCharacterList[0].Name}");
                 //Console.WriteLine($"{currentAction.Name} dealt {currentAction.DamageValue} to {oppositePlayer.myCharacterList[0].Name}");
                 //Console.WriteLine($"{oppositePlayer.myCharacterList[0].Name} is at {oppositePlayer.myCharacterList[0].CurrentHealth} / {oppositePlayer.myCharacterList[0].MaxHealth} HP");

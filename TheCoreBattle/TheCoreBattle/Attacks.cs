@@ -8,6 +8,7 @@
     public class BoneCrunch : IAttack
     {
         public string Name => "Bone Crunch";
+        //gdy wypisuje to losuje obrażenia, więc mogę zadać obrażenie, a chat wypisze, że nie zadałem
         public int DamageValue => Random.Shared.Next(2);
     }
     public class UnravellAttack :IAttack

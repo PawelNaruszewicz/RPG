@@ -49,11 +49,17 @@
             {
                 //TODO DODAĆ BOOL CZY GRACZ CZY AI GRA
                 //int input2 = 1;
+
+                //TODO SEPARETE CHAT AND DECIDE ACTION
+                // ADD DAMAGE TO CHARACTERS
+                // 
+
+                //poparwić kod, zbyt często korzysatm z listy?
                 Console.WriteLine("Decide which action you want to make");
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
 
-
+                //lepsza obsługas inputów, bo inaczej wyjebuje
                 int input2 = Convert.ToInt32(Console.ReadLine());
                 if (input2 == 1 || input2 == 2)
                 {
@@ -61,9 +67,9 @@
                     break;
                 }
             }
-
+            DealDamage(character, oppositePlayer.myCharacterList[0]);
             chatDisplay.DisplayChat(character, actionToMake, oppositePlayer, this);
-            
+
             CheckIfCharacterDies(oppositePlayer);
             CreateEnemiesForCurrentBattle();
             CheckIfGameOver(currentPlayer, oppositePlayer);
@@ -121,6 +127,10 @@
                 case 3:
                     break;
             }
+        }
+        private void DealDamage(Character character, Character recipient)
+        {
+            recipient.CurrentHealth -= character.BasicAttack.DamageValue;
         }
     }
 }
