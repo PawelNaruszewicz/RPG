@@ -9,6 +9,7 @@ namespace TheCoreBattle
         public abstract IAttack BasicAttack { get; }
         public Team Team;
         public DoNothing DoNothingAction => new DoNothing();
+        public UseAction UseAction => new UseAction();
 
         private int _hp;
         public int CurrentHealth

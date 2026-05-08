@@ -2,8 +2,10 @@
 {
     public class GameManager
     {
-        private ChatDisplay? chatDisplay;
         public Random? random;
+        public Player OppositePlayer;
+        
+        private ChatDisplay? chatDisplay;
         private bool RunGame = true;
         private int currentBattleIndex = 0;
         private Player monsterPlayer;
@@ -17,7 +19,7 @@
             monsterPlayer = playerTwo;
 
             Player currentPlayer = playerOne;
-            Player oppositePlayer = playerTwo;
+            OppositePlayer = playerTwo;
 
             Character heroName = new Hero(chatDisplay.GetHeroName());
             playerOne.AddCharacterToMyTeam(heroName);
@@ -27,9 +29,9 @@
 
             while (RunGame)
             {
-                PlayTurn(currentPlayer, oppositePlayer);
+                PlayTurn(currentPlayer, OppositePlayer);
                 currentPlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
-                oppositePlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
+                OppositePlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
             }
         }
         private void PlayTurn(Player currentPlayer, Player oppositePlayer)
@@ -45,32 +47,15 @@
             int actionToMake;
             string input = random.Next(2).ToString();
 
-            while (true)
-            {
-                //TODO DODAĆ BOOL CZY GRACZ CZY AI GRA
-                //int input2 = 1;
+            actionToMake = chatDisplay.GetAction(character);
+            //BŁAD
+            //zadaje obrażenia nawet jak stoje afk
 
-                //TODO SEPARETE CHAT AND DECIDE ACTION
-                // ADD DAMAGE TO CHARACTERS
-                // 
-
-                //poparwić kod, zbyt często korzysatm z listy?
-                Console.WriteLine("Decide which action you want to make");
-                Console.WriteLine($"1 - {character.BasicAttack.Name}");
-                Console.WriteLine($"2 - Do Nothing");
-
-                //lepsza obsługas inputów, bo inaczej wyjebuje
-                int input2 = Convert.ToInt32(Console.ReadLine());
-                if (input2 == 1 || input2 == 2)
-                {
-                    actionToMake = input2;
-                    break;
-                }
-            }
-            DealDamage(character, oppositePlayer.myCharacterList[0]);
+            //REFACTOR tego
+            //tutaj jest pierdolnik, to trzeba przerobic
             chatDisplay.DisplayChat(character, actionToMake, oppositePlayer, this);
-
             CheckIfCharacterDies(oppositePlayer);
+
             CreateEnemiesForCurrentBattle();
             CheckIfGameOver(currentPlayer, oppositePlayer);
         }
@@ -128,9 +113,6 @@
                     break;
             }
         }
-        private void DealDamage(Character character, Character recipient)
-        {
-            recipient.CurrentHealth -= character.BasicAttack.DamageValue;
-        }
+
     }
 }

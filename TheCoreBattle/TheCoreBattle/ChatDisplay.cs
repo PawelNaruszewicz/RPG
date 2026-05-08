@@ -17,13 +17,7 @@
                 character.DoNothingAction.Run(gameManager, character);
             else
             {
-                Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {oppositePlayer.myCharacterList[0].Name}");
-                Console.WriteLine($"{character.BasicAttack.Name} dealt {character.BasicAttack.DamageValue} to {oppositePlayer.myCharacterList[0].Name}");
-                Console.WriteLine($"{oppositePlayer.myCharacterList[0].Name} is at {oppositePlayer.myCharacterList[0].CurrentHealth} / {oppositePlayer.myCharacterList[0].MaxHealth} HP");
-
-                //Console.WriteLine($"{character.Name} used {currentAction.Name} on {oppositePlayer.myCharacterList[0].Name}");
-                //Console.WriteLine($"{currentAction.Name} dealt {currentAction.DamageValue} to {oppositePlayer.myCharacterList[0].Name}");
-                //Console.WriteLine($"{oppositePlayer.myCharacterList[0].Name} is at {oppositePlayer.myCharacterList[0].CurrentHealth} / {oppositePlayer.myCharacterList[0].MaxHealth} HP");
+                character.UseAction.Run(gameManager, character);
             }
             Console.WriteLine();
         }
@@ -35,6 +29,26 @@
         {
             Console.WriteLine($"Team {playerWon.Team} has won!");
             Console.WriteLine($"{playerLost.Team} has been defetead");
+        }
+        public int GetAction(Character character)
+        {
+            int actionIntToReturn;
+            //while(true)
+            //{
+            //    Console.WriteLine("Decide which action you want to make");
+            //    Console.WriteLine($"1 - {character.BasicAttack.Name}");
+            //    Console.WriteLine($"2 - Do Nothing");
+
+            //    //lepsza obsługas inputów, bo inaczej wyjebuje
+            //    int input2 = Convert.ToInt32(Console.ReadLine());
+            //    if (input2 == 1 || input2 == 2)
+            //    {
+            //        actionIntToReturn = input2;
+            //        break;
+            //    }
+            //}
+            return 1;
+            //return actionIntToReturn;
         }
         public string GetHeroName()
         {

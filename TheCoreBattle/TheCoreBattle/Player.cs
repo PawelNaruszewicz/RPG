@@ -1,9 +1,8 @@
 ﻿namespace TheCoreBattle
 {
-    internal class Player
+    public class Player
     {
         public List<Character> myCharacterList { get; set; }
-        public List<Character> myCurrentBattleCharacters { get; set; }
         public Team Team { get; set; }
 
         public Player(Team team)
