@@ -5,7 +5,7 @@ namespace TheCoreBattle
 {
     public abstract class Character
     {
-        public abstract string Name { get; }
+        public abstract string Name { get; set; }
         public abstract IAttack BasicAttack { get; }
         public Team Team;
         
@@ -22,29 +22,10 @@ namespace TheCoreBattle
             CurrentHealth = hp;
             Team = team;
         }
-        //public Dictionary<int, Action> AvailableAction;
-
-        //private void CreateAttackDictionary()
-        //{
-
-        //    AvailableAction = new Dictionary<int, Action>();
-        //    AvailableAction.Add(0, new Action("NOTHING"));
-
-        //    for (int i = 1; i < 2; i++)
-        //    {
-        //        Action actionToAdd = Name switch
-        //        {
-        //            "SKELETON" => new Action("BONE CRUNCH"),
-        //            "THE UNCODED ONE" => new Action("UNRAVELLING ATTACK"),
-        //            _ => new Action("PUNCH")
-        //        };
-        //        AvailableAction.Add(i, actionToAdd);
-        //    }
-        //}
 
         public override string ToString()
         {
-            return ($"Name is {Name}");
+            return ($"Name is {Name}, Health is {CurrentHealth}, Team is {Team}, Max Health is {MaxHealth}");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TheCoreBattle
 {
-    internal class GameManager
+    public class GameManager
     {
         private ChatDisplay? chatDisplay;
         public Random? random;
@@ -19,7 +19,7 @@
             Player currentPlayer = playerOne;
             Player oppositePlayer = playerTwo;
 
-            Character heroName = new Character(chatDisplay.GetHeroName(), 25);
+            Character heroName = new Hero();
             playerOne.AddCharacterToMyTeam(heroName);
             CreateEnemiesForCurrentBattle();
 
@@ -94,21 +94,21 @@
             if (monsterPlayer.myCharacterList.Count != 0) return;
             if (currentBattleIndex == 0)
             {
-                Character enemySkeleton = new Character("SKELETON", 5);
+                Character enemySkeleton = new Skeleton();
                 monsterPlayer.AddCharacterToMyTeam(enemySkeleton);
             }
-            else if (currentBattleIndex == 1)
-            {
-                Character enemySkeleton1 = new Character("SKELETON", 5);
-                Character enemySkeleton2 = new Character("SKELETON", 5);
-                monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
-                monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
-            }
-            else if(currentBattleIndex == 2)
-            {
-                Character theUncodedOne = new Character("THE UNCODED ONE", 15);
-                monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
-            }
+            //else if (currentBattleIndex == 1)
+            //{
+            //    Character enemySkeleton1 = new Character("SKELETON", 5);
+            //    Character enemySkeleton2 = new Character("SKELETON", 5);
+            //    monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
+            //    monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
+            //}
+            //else if(currentBattleIndex == 2)
+            //{
+            //    Character theUncodedOne = new Character("THE UNCODED ONE", 15);
+            //    monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
+            //}
             currentBattleIndex++;
         }
         private void ChooseGameMode()
