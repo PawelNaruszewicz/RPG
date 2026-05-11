@@ -27,7 +27,7 @@
 
             Character heroName = new Hero(_chatDisplay.GetHeroName());
             _playerOne.AddCharacterToMyTeam(heroName);
-            _gameManager.CreateEnemiesForCurrentBattle();
+            _gameManager.TryCreateEnemiesForCurrentBattle();
 
             while (_gameManager.RunGame)
             {
@@ -58,15 +58,14 @@
                 int actionToMake = DecideAction(characterThatAttacks);
                 UseAction(actionToMake, characterThatAttacks, targetCharacter);
 
-                VerifyGameChanges();
+                VerifyBattleState();
                 Thread.Sleep(1000);
             }
         }
 
-        private void VerifyGameChanges()
-        {
-            _gameManager.CheckIfCharacterDies(_oppositePlayer);
-            _gameManager.CreateEnemiesForCurrentBattle();
+        private void VerifyBattleState()
+        {   
+            _gameManager.TryCreateEnemiesForCurrentBattle();
             _gameManager.CheckIfGameOver(_currentPlayer, _oppositePlayer);
         }
 
@@ -76,8 +75,9 @@
                 characterThatAttacks.DoNothingAction.Run(characterThatAttacks, targetCharacter);
             else
             {
-                characterThatAttacks.UseAction.Run(characterThatAttacks, targetCharacter);
+                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter);
             }
+            _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
         }
     }

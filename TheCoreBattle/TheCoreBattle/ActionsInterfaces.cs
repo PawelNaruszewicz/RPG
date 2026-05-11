@@ -4,7 +4,7 @@ namespace TheCoreBattle
     public interface IAttack
     {
         string Name { get; }
-        AttackResult Create();
+        AttackResult GetAttackDamage();
     }
     public interface IAction
     {
@@ -17,11 +17,11 @@ namespace TheCoreBattle
             Console.WriteLine($"{character.Name} did NOTHING");
         }
     }
-    public class UseAction: IAction
+    public class BasicAction: IAction
     {
         public void Run(Character character, Character target)
         {
-            AttackResult attackData = character.BasicAttack.Create();
+            AttackResult attackData = character.BasicAttack.GetAttackDamage();
 
             target.CurrentHealth = target.CurrentHealth - attackData.Damage;
             Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {target.Name}");

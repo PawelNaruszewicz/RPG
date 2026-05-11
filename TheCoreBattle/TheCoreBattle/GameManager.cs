@@ -35,7 +35,7 @@
             chatDisplay.EndGameDisplay(playerWon, playerLost);
             RunGame = false;
         }
-        public void CreateEnemiesForCurrentBattle()
+        public void TryCreateEnemiesForCurrentBattle()
         {
             if (_monsterPlayer.myCharacterList.Count != 0) return;
             if (currentBattleIndex == 0)
