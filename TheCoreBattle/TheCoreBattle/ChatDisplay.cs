@@ -2,25 +2,12 @@
 {
     internal class ChatDisplay
     {
-        public void DisplayChat(Character character, int chosenAction, Player oppositePlayer,GameManager gameManager)
-        {
-            DisplayTurn(character);
-            DisplayAction(character, chosenAction, oppositePlayer, gameManager);
-        }
-        private void DisplayTurn(Character character)
+
+        public void DisplayTurn(Character character)
         {
             Console.WriteLine($"It is {character.Name} turn...");
         }
-        private void DisplayAction(Character character, int chosenAction, Player oppositePlayer, GameManager gameManager)
-        {
-            if (chosenAction == 2)
-                character.DoNothingAction.Run(gameManager, character);
-            else
-            {
-                character.UseAction.Run(gameManager, character);
-            }
-            Console.WriteLine();
-        }
+
         public void DisplayCharacterDeath(Character deadCharacter)
         {
             Console.WriteLine($"{deadCharacter.Name} has been defeated!");

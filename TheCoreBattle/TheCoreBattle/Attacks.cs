@@ -10,8 +10,6 @@ namespace TheCoreBattle
     public class BoneCrunch : IAttack
     {
         public string Name => "Bone Crunch";
-        //BŁAD 
-        //gdy wypisuje to losuje obrażenia, więc mogę zadać obrażenie, a chat wypisze, że nie zadałem
         public AttackResult Create() => new AttackResult(Random.Shared.Next(2));
 
 
