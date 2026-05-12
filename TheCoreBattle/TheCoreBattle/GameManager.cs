@@ -5,6 +5,7 @@
         private Player _playerOne;
         private Player _playerTwo;
         private Player _monsterPlayer;
+        private GameMode _currentGameMode;
 
         public bool RunGame = true;
         ChatDisplay chatDisplay = new ChatDisplay();
@@ -15,7 +16,8 @@
             _playerTwo = new Player(Team.Enemy);
             _monsterPlayer = _playerTwo;
             Battle battle = new Battle();
-            battle.Run(this, _playerOne, _playerTwo);
+            ChooseGameMode();
+            battle.Run(this, _playerOne, _playerTwo, _currentGameMode);
         }
         public void CheckIfCharacterDies(Player oppositePlayer)
         {
@@ -63,12 +65,16 @@
             switch(chosenGameMode)
             {
                 case 1:
+                    _currentGameMode = new GameMode(GameModeType.PlayerVsPc);
                     break;
                 case 2:
+                    _currentGameMode = new GameMode(GameModeType.PcVsPc);
                     break;
                 case 3:
+                    _currentGameMode = new GameMode(GameModeType.PlayerVsPlayer);
                     break;
             }
+            Console.WriteLine($"{_currentGameMode.CurrentGameMode} has been activated");
         }
 
     }

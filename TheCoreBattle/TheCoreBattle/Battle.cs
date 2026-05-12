@@ -8,16 +8,14 @@
         private Player _currentPlayer;
         private Player _oppositePlayer;
 
-
-        //private Character _characterThatAttacks;
-        //private Character _targetCharacter;
-
+        private GameMode _currentGameMode;
         private ChatDisplay? _chatDisplay;
         private GameManager _gameManager;
-        public void Run(GameManager gameManager, Player playerOne, Player playerTwo)
+        public void Run(GameManager gameManager, Player playerOne, Player playerTwo, GameMode gameMode)
         {
             _gameManager = gameManager;
             _chatDisplay = new ChatDisplay();
+            _currentGameMode = gameMode;
 
             _playerOne = playerOne;
             _playerTwo = playerTwo;
@@ -38,20 +36,31 @@
         }
         private int DecideAction(Character characterThatAttacks)
         {
+
+            //TO DO
+            //DODAĆ JAKOŚ ROZPOZNANIE GRACZ, CZY DAĆ MU INPUT ZALEŻNIE OD TRYBU
             int actionToMake;
-            string input = Random.Shared.Next(2).ToString();
-
+            if (_currentGameMode.CurrentGameMode == GameModeType.PlayerVsPc)
+            {
+                actionToMake = _chatDisplay.GetAction(characterThatAttacks);
+            }
+            else if (_currentGameMode.CurrentGameMode == GameModeType.PlayerVsPlayer)
+            {
+                actionToMake = _chatDisplay.GetAction(characterThatAttacks);
+            }
+            else
+            {
+                actionToMake = 1;
+            }
             _chatDisplay.DisplayTurn(characterThatAttacks);
-
-            actionToMake = _chatDisplay.GetAction(characterThatAttacks);
-
+            
             return actionToMake;
         }
         private void PlayTurn()
         {
             for (int i = 0; i < _currentPlayer.myCharacterList.Count; i++)
             {
-                
+
                 Character characterThatAttacks = _currentPlayer.myCharacterList[i];
                 Character targetCharacter = _oppositePlayer.myCharacterList[0];
 
@@ -64,7 +73,7 @@
         }
 
         private void VerifyBattleState()
-        {   
+        {
             _gameManager.TryCreateEnemiesForCurrentBattle();
             _gameManager.CheckIfGameOver(_currentPlayer, _oppositePlayer);
         }
@@ -72,7 +81,7 @@
         private void UseAction(int chosenAction, Character characterThatAttacks, Character targetCharacter)
         {
             if (chosenAction == 2)
-                characterThatAttacks.DoNothingAction.Run(characterThatAttacks, targetCharacter);
+                characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
             else
             {
                 characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter);

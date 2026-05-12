@@ -20,22 +20,21 @@
         public int GetAction(Character character)
         {
             int actionIntToReturn;
-            //while(true)
-            //{
-            //    Console.WriteLine("Decide which action you want to make");
-            //    Console.WriteLine($"1 - {character.BasicAttack.Name}");
-            //    Console.WriteLine($"2 - Do Nothing");
+            while (true)
+            {
+                Console.WriteLine("Decide which action you want to make");
+                Console.WriteLine($"1 - {character.BasicAttack.Name}");
+                Console.WriteLine($"2 - Do Nothing");
 
-            //    //lepsza obsługas inputów, bo inaczej wyjebuje
-            //    int input2 = Convert.ToInt32(Console.ReadLine());
-            //    if (input2 == 1 || input2 == 2)
-            //    {
-            //        actionIntToReturn = input2;
-            //        break;
-            //    }
-            //}
-            return 1;
-            //return actionIntToReturn;
+                //lepsza obsługas inputów, bo inaczej wyjebuje
+                int input2 = Convert.ToInt32(Console.ReadLine());
+                if (input2 == 1 || input2 == 2)
+                {
+                    actionIntToReturn = input2;
+                    break;
+                }
+            }
+            return actionIntToReturn;
         }
         public string GetHeroName()
         {
