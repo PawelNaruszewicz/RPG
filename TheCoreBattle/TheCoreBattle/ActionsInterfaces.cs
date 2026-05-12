@@ -10,9 +10,13 @@ namespace TheCoreBattle
     {
         void Run(Character character, Character target);
     }
-    public class DoNothing : IAction
+    public interface INothing
     {
-        public void Run(Character character, Character target)
+        void Run(Character character);
+    }
+    public class DoNothing : INothing
+    {
+        public void Run(Character character)
         {
             Console.WriteLine($"{character.Name} did NOTHING");
         }
