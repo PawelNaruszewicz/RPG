@@ -26,13 +26,15 @@
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
 
-                //lepsza obsługas inputów, bo inaczej wyjebuje
-                int input2 = Convert.ToInt32(Console.ReadLine());
-                if (input2 == 1 || input2 == 2)
+                if (int.TryParse(Console.ReadLine(),out int Y))
                 {
-                    actionIntToReturn = input2;
-                    break;
+                    if(Y >0 && Y < 3)
+                    {
+                        actionIntToReturn = Y;
+                        break;
+                    }
                 }
+                Console.WriteLine();
             }
             return actionIntToReturn;
         }
@@ -64,6 +66,26 @@
                 if (input > 0 && input < 4) break;
             }
             return input;
+        }
+        public void DisplayBattleState(Player currentPlayer, Player playerTwo, Character currentCharacter)
+        {
+            Console.WriteLine("========================BATTLE========================");
+            foreach (Character character in currentPlayer.myCharacterList)
+            {
+                if (character == currentCharacter)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                Console.WriteLine($"{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
+                Console.ForegroundColor = ConsoleColor.White;
+
+            }
+            Console.WriteLine("---------------------------VS--------------------------");
+            foreach (Character character in playerTwo.myCharacterList)
+            {
+                Console.WriteLine($"\t\t\t{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
+            }
+            Console.WriteLine("=====================================================0");
         }
     }
 }
