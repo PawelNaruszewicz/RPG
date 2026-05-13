@@ -3,12 +3,14 @@
     public class Player
     {
         public List<Character> myCharacterList { get; set; }
-        public Team Team { get; set; }
+        public Team Team { get; }
+        public bool IsHuman {get;}
 
-        public Player(Team team)
+        public Player(Team team, bool isHuman)
         {
             myCharacterList = new List<Character>();
             Team = team;
+            IsHuman = isHuman;
         }
         public void AddCharacterToMyTeam(Character character)
         {

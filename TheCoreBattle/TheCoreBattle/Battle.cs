@@ -8,14 +8,12 @@
         private Player _currentPlayer;
         private Player _oppositePlayer;
 
-        private GameMode _currentGameMode;
         private ChatDisplay? _chatDisplay;
         private GameManager _gameManager;
-        public void Run(GameManager gameManager, Player playerOne, Player playerTwo, GameMode gameMode)
+        public void Run(GameManager gameManager, Player playerOne, Player playerTwo)
         {
             _gameManager = gameManager;
             _chatDisplay = new ChatDisplay();
-            _currentGameMode = gameMode;
 
             _playerOne = playerOne;
             _playerTwo = playerTwo;
@@ -36,15 +34,8 @@
         }
         private int DecideAction(Character characterThatAttacks)
         {
-
-            //TO DO
-            //DODAĆ JAKOŚ ROZPOZNANIE GRACZ, CZY DAĆ MU INPUT ZALEŻNIE OD TRYBU
             int actionToMake;
-            if (_currentGameMode.CurrentGameMode == GameModeType.PlayerVsPc)
-            {
-                actionToMake = _chatDisplay.GetAction(characterThatAttacks);
-            }
-            else if (_currentGameMode.CurrentGameMode == GameModeType.PlayerVsPlayer)
+            if (_currentPlayer.IsHuman == true)
             {
                 actionToMake = _chatDisplay.GetAction(characterThatAttacks);
             }

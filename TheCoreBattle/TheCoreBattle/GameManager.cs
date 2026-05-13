@@ -5,19 +5,20 @@
         private Player _playerOne;
         private Player _playerTwo;
         private Player _monsterPlayer;
-        private GameMode _currentGameMode;
 
         public bool RunGame = true;
         ChatDisplay chatDisplay = new ChatDisplay();
         private int currentBattleIndex = 0;
         public void Run()
         {
-            _playerOne = new Player(Team.Player);
-            _playerTwo = new Player(Team.Enemy);
+            ChooseGameMode(out bool playerOneBool,out bool playerTwoBool);
+
+            _playerOne = new Player(Team.Player, playerOneBool);
+            _playerTwo = new Player(Team.Enemy, playerTwoBool);
+            Console.WriteLine($"P1 BOOL - {playerOneBool}, P2 BOOL - {playerTwoBool}");
             _monsterPlayer = _playerTwo;
             Battle battle = new Battle();
-            ChooseGameMode();
-            battle.Run(this, _playerOne, _playerTwo, _currentGameMode);
+            battle.Run(this, _playerOne, _playerTwo);
         }
         public void CheckIfCharacterDies(Player oppositePlayer)
         {
@@ -59,23 +60,31 @@
             }
             currentBattleIndex++;
         }
-        public void ChooseGameMode()
+        public void ChooseGameMode(out bool playerOneBool, out bool playerTwoBool)
         {
             int chosenGameMode = chatDisplay.GetGameMode();
+            bool _playerOneBool = true;
+            bool _playerTwoBool = false;
+
             switch(chosenGameMode)
             {
                 case 1:
-                    _currentGameMode = new GameMode(GameModeType.PlayerVsPc);
+                    _playerOneBool = true;
+                    _playerTwoBool = false;
                     break;
                 case 2:
-                    _currentGameMode = new GameMode(GameModeType.PcVsPc);
+                    _playerOneBool = false;
+                    _playerTwoBool = false;
                     break;
                 case 3:
-                    _currentGameMode = new GameMode(GameModeType.PlayerVsPlayer);
+                    _playerOneBool = true;
+                    _playerTwoBool = true;
                     break;
             }
-            Console.WriteLine($"{_currentGameMode.CurrentGameMode} has been activated");
+            playerOneBool = _playerOneBool;
+            playerTwoBool = _playerTwoBool;
         }
+        
 
     }
 }
