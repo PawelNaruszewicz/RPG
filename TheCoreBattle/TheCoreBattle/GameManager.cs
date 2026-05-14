@@ -15,7 +15,7 @@
 
             _playerOne = new Player(Team.Player, playerOneBool);
             _playerTwo = new Player(Team.Enemy, playerTwoBool);
-            Console.WriteLine($"P1 BOOL - {playerOneBool}, P2 BOOL - {playerTwoBool}");
+
             _monsterPlayer = _playerTwo;
             Battle battle = new Battle();
             battle.Run(this, _playerOne, _playerTwo);

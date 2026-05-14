@@ -10,15 +10,30 @@ namespace TheCoreBattle
     {
         void Run(Character character, Character target);
     }
-    public interface INothing
+    public interface IDoNothingAction
     {
         void Run(Character character);
     }
-    public class DoNothing : INothing
+    public interface ISingleCharacterActionWithItem
+    {
+
+        //NOT SURE CZY TRZEBA TUTAJ PLAYERA
+        void Run(Character character, Item item, Player player);
+    }
+    public class DoNothing : IDoNothingAction
     {
         public void Run(Character character)
         {
             Console.WriteLine($"{character.Name} did NOTHING");
+        }
+    }
+    public class UsePotion : ISingleCharacterActionWithItem
+    {
+        public void Run(Character character, Item item, Player player)
+        {
+            item.UseItem(character);
+            Console.WriteLine($"{character.Name} used {item.Name}!");
+            Console.WriteLine($"{character.Name} healh is {character.CurrentHealth}/ {character.MaxHealth}");
         }
     }
     public class BasicAction: IAction

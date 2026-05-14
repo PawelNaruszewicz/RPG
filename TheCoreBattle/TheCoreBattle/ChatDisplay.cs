@@ -22,13 +22,16 @@
             int actionIntToReturn;
             while (true)
             {
+                //przerobić display zależnie od tego czy current player ma itemy/ gear do pokazania
+                // przerobić też parsowanie wyniku, może array z listą pozwolonych znaków?
                 Console.WriteLine("Decide which action you want to make");
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
+                Console.WriteLine($"3 - Use Potion");
 
                 if (int.TryParse(Console.ReadLine(),out int Y))
                 {
-                    if(Y >0 && Y < 3)
+                    if(Y >0 && Y < 4)
                     {
                         actionIntToReturn = Y;
                         break;
