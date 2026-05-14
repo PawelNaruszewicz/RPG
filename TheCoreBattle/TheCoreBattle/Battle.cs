@@ -64,6 +64,8 @@
         }
         private int AIGetAction(Character characterThatAttacks)
         {
+            //TODO REFACTOR, BRZYDKIE LOSOWANIE IMO
+            //KAŻDE DODANIE AKCJI POWOUJE, ŻE W AI TEŻ MUSZĘ INKREMENTOWAĆ ILOŚC AKCJI 
             int chosenAction = 1;
             if (_currentPlayer.partyItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
             {
@@ -94,7 +96,7 @@
                     characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter);
                 else
                 {
-                    characterThatAttacks.EquipGear.Run(characterThatAttacks, _currentPlayer);
+                    characterThatAttacks.EquipGear.Equip(characterThatAttacks, _currentPlayer);
                 }
             }
             else
@@ -104,7 +106,7 @@
             _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
         }
-
+        //REFACTOR / TODO
         //RACZEJ POWINNO BYĆ W GAMEMANAGERZE
 
         private void SetupFirstBattle()
@@ -120,8 +122,15 @@
             _playerOne.AddItemsToMyTeam(potionOne);
             _playerOne.AddItemsToMyTeam(potionTwo);
 
+            //TODO
+            //SWORD POWINIEN BYĆ EQUIPPED
+            //TAK SAMO DAGGER NA DOLE
             Gear sword = new Sword();
             _playerOne.AddGearToMyTeam(sword);
+
+            
+            Gear dagger = new Dagger();
+            _playerTwo.AddGearToMyTeam(dagger);
 
             Potion potionEnemy = new Potion();
             _playerTwo.AddItemsToMyTeam(potionEnemy);

@@ -14,8 +14,8 @@
         //TO DO DODAĆ SETTING ITEMÓW, sprwadzenie czy możesz
         public Gear GearEquipped { get; set; }
         public bool HasGearEquipped = false;
-        public GearAction UseGearAction => new GearAction();
-        public EquipGear EquipGear => new EquipGear();
+        public GearAttack UseGearAction => new GearAttack();
+        public GearInteraction EquipGear => new GearInteraction();
 
         private int _hp;
         public int CurrentHealth

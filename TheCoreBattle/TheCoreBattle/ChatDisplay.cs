@@ -92,12 +92,12 @@
                 Console.ForegroundColor = ConsoleColor.White;
 
             }
-            Console.WriteLine("---------------------------VS--------------------------");
+            Console.WriteLine("--------------------------VS--------------------------");
             foreach (Character character in playerTwo.myCharacterList)
             {
                 Console.WriteLine($"\t\t\t{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
             }
-            Console.WriteLine("=====================================================0");
+            Console.WriteLine("======================================================");
         }
     }
 }
