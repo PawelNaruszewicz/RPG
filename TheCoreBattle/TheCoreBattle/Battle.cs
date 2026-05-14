@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace TheCoreBattle
+﻿namespace TheCoreBattle
 {
     public class Battle
     {
@@ -50,28 +48,36 @@ namespace TheCoreBattle
         }
         private int DecideAction(Character characterThatAttacks)
         {
-            //TODO
-            // DODAĆ WERYFIKACJE POTIONÓW, CZY SĄ W EQ ->WTEDY DOPIERO POWINNA BYĆ OPCJA BY SIĘ WYŚWIETLAŁY / DO UŻYCIA
             int actionToMake;
             if (_currentPlayer.IsHuman == true)
             {
-                actionToMake = _chatDisplay.GetAction(characterThatAttacks);
+                actionToMake = _chatDisplay.GetAction(characterThatAttacks, _currentPlayer);
             }
             else
             {
-                actionToMake = AIUseAction();
+                actionToMake = AIGetAction(characterThatAttacks);
                 Thread.Sleep(1000);
             }
             _chatDisplay.DisplayTurn(characterThatAttacks);
 
             return actionToMake;
         }
-        private int AIUseAction()
+        private int AIGetAction(Character characterThatAttacks)
         {
-           //TODO
-           //DODAĆ LOGIKE LOSOWANIA TEGO CO MA AI ZROBIĆ
-           //CZYLI TUTAJ TEŻ TRZEBA PATRZEĆ CZY ON W OGÓLE MOŻE ZROBIĆ DANE AKCJE
-            return 1;
+            int chosenAction = 1;
+            if (_currentPlayer.partyItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
+            {
+                if (Random.Shared.Next(0, 4) == 0) chosenAction = 3;
+                else
+                {
+                    chosenAction = Random.Shared.Next(1, 3);
+                }
+            }
+            else
+            {
+                chosenAction = Random.Shared.Next(1, 3);
+            }
+            return chosenAction;
         }
         private void UseAction(int chosenAction, Character characterThatAttacks, Character targetCharacter)
         {
@@ -80,6 +86,16 @@ namespace TheCoreBattle
             else if (chosenAction == 3)
             {
                 characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.partyItems[0], _currentPlayer);
+                _currentPlayer.partyItems.Remove(_currentPlayer.partyItems[0]);
+            }
+            else if(chosenAction ==4)
+            {
+                if(characterThatAttacks.HasGearEquipped)
+                    characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter);
+                else
+                {
+                    characterThatAttacks.EquipGear.Run(characterThatAttacks, _currentPlayer);
+                }
             }
             else
             {
@@ -89,6 +105,7 @@ namespace TheCoreBattle
             Console.WriteLine();
         }
 
+        //RACZEJ POWINNO BYĆ W GAMEMANAGERZE
 
         private void SetupFirstBattle()
         {
@@ -97,15 +114,25 @@ namespace TheCoreBattle
             _gameManager.TryCreateEnemiesForCurrentBattle();
 
             Potion potion = new Potion();
-            Potion potionEnemy = new Potion();
+            Potion potionOne = new Potion();
+            Potion potionTwo = new Potion();
             _playerOne.AddItemsToMyTeam(potion);
+            _playerOne.AddItemsToMyTeam(potionOne);
+            _playerOne.AddItemsToMyTeam(potionTwo);
+
+            Gear sword = new Sword();
+            _playerOne.AddGearToMyTeam(sword);
+
+            Potion potionEnemy = new Potion();
             _playerTwo.AddItemsToMyTeam(potionEnemy);
         }
 
-       
+
 
         private void VerifyBattleState()
         {
+            //TODO
+            //DODAĆ POTKI DLA PÓŹNIEJSZYCH POTWÓRÓW
             _gameManager.TryCreateEnemiesForCurrentBattle();
             _gameManager.CheckIfGameOver(_currentPlayer, _oppositePlayer);
         }

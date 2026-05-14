@@ -14,24 +14,33 @@
         }
         public void EndGameDisplay(Player playerWon, Player playerLost)
         {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine($"Team {playerWon.Team} has won!");
             Console.WriteLine($"{playerLost.Team} has been defetead");
         }
-        public int GetAction(Character character)
+        public int GetAction(Character character, Player currentPlayer)
         {
             int actionIntToReturn;
+            List<int> allowedChar = new List<int> { 1, 2 };
+            if (currentPlayer.partyItems.Count != 0) allowedChar.Add(3);
+            if (currentPlayer.partyGear.Count != 0 || character.HasGearEquipped) allowedChar.Add(4);
+
             while (true)
             {
-                //przerobić display zależnie od tego czy current player ma itemy/ gear do pokazania
-                // przerobić też parsowanie wyniku, może array z listą pozwolonych znaków?
                 Console.WriteLine("Decide which action you want to make");
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
-                Console.WriteLine($"3 - Use Potion");
 
-                if (int.TryParse(Console.ReadLine(),out int Y))
+                if (currentPlayer.partyItems.Count != 0) Console.WriteLine($"3 - Use Potion");
+                //to do może iterować po itemach wszystkich? trzeba by dodać opcje
+                //brzydka ta logika mocno tutaj
+                if (currentPlayer.partyGear.Count != 0 && character.HasGearEquipped == false) Console.WriteLine($"4 - Equip Item {currentPlayer.partyGear[0].Name}");
+                else if (character.HasGearEquipped == true) Console.WriteLine($"4 - Attack Using {character.GearEquipped.Name}");
+                if (int.TryParse(Console.ReadLine(), out int Y))
                 {
-                    if(Y >0 && Y < 4)
+                    if (allowedChar.Contains(Y))
                     {
                         actionIntToReturn = Y;
                         break;

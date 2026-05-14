@@ -11,7 +11,7 @@
         private int currentBattleIndex = 0;
         public void Run()
         {
-            ChooseGameMode(out bool playerOneBool,out bool playerTwoBool);
+            ChooseGameMode(out bool playerOneBool, out bool playerTwoBool);
 
             _playerOne = new Player(Team.Player, playerOneBool);
             _playerTwo = new Player(Team.Enemy, playerTwoBool);
@@ -66,7 +66,7 @@
             bool _playerOneBool = true;
             bool _playerTwoBool = false;
 
-            switch(chosenGameMode)
+            switch (chosenGameMode)
             {
                 case 1:
                     _playerOneBool = true;
@@ -84,7 +84,7 @@
             playerOneBool = _playerOneBool;
             playerTwoBool = _playerTwoBool;
         }
-        
+
 
     }
 }

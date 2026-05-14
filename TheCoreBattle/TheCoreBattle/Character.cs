@@ -1,16 +1,21 @@
-﻿
-using System;
-
-namespace TheCoreBattle
+﻿namespace TheCoreBattle
 {
     public abstract class Character
     {
         public abstract string Name { get; }
-        public abstract IAttack BasicAttack { get; }
         public Team Team;
+        public abstract IAttack BasicAttack { get; }
+
         public DoNothing DoNothingAction { get; } = new DoNothing();
         public UsePotion UsePotionAction { get; } = new UsePotion();
         public BasicAction UseBasicAction => new BasicAction();
+        
+
+        //TO DO DODAĆ SETTING ITEMÓW, sprwadzenie czy możesz
+        public Gear GearEquipped { get; set; }
+        public bool HasGearEquipped = false;
+        public GearAction UseGearAction => new GearAction();
+        public EquipGear EquipGear => new EquipGear();
 
         private int _hp;
         public int CurrentHealth
