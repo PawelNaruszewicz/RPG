@@ -24,8 +24,9 @@
         {
             int actionIntToReturn;
             List<int> allowedChar = new List<int> { 1, 2 };
-            if (currentPlayer.partyItems.Count != 0) allowedChar.Add(3);
-            if (currentPlayer.partyGear.Count != 0 || character.HasGearEquipped) allowedChar.Add(4);
+            if (currentPlayer.ItemManager.partyConsumableItems.Count != 0) allowedChar.Add(3);
+            if (currentPlayer.ItemManager.partyItems.Count != 0 || character.HasGearEquipped()) allowedChar.Add(4);
+            if (character.HasGearEquipped()) allowedChar.Add(5);
 
             while (true)
             {
@@ -33,11 +34,15 @@
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
 
-                if (currentPlayer.partyItems.Count != 0) Console.WriteLine($"3 - Use Potion");
+                if (currentPlayer.ItemManager.partyConsumableItems.Count != 0) Console.WriteLine($"3 - Use Potion");
                 //to do może iterować po itemach wszystkich? trzeba by dodać opcje
                 //brzydka ta logika mocno tutaj
-                if (currentPlayer.partyGear.Count != 0 && character.HasGearEquipped == false) Console.WriteLine($"4 - Equip Item {currentPlayer.partyGear[0].Name}");
-                else if (character.HasGearEquipped == true) Console.WriteLine($"4 - Attack Using {character.GearEquipped.Name}");
+                if (currentPlayer.ItemManager.partyItems.Count != 0 && character.HasGearEquipped() == false) Console.WriteLine($"4 - Equip Item {currentPlayer.ItemManager.partyItems[0].Name}");
+                else if(character.HasGearEquipped() == true) Console.WriteLine($"4 - Unequip Item {character.ItemEquipped.Name}");
+
+                if (character.HasGearEquipped() == true) Console.WriteLine($"5 - Attack Using {character.ItemEquipped.Name}");
+
+
                 if (int.TryParse(Console.ReadLine(), out int Y))
                 {
                     if (allowedChar.Contains(Y))
@@ -89,13 +94,17 @@
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 Console.WriteLine($"{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
+                if(character.HasGearEquipped()) Console.WriteLine($"Weapon\t {character.ItemEquipped.Name.ToUpper()}");
                 Console.ForegroundColor = ConsoleColor.White;
 
             }
             Console.WriteLine("--------------------------VS--------------------------");
             foreach (Character character in playerTwo.myCharacterList)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\t\t\t{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
+                if (character.HasGearEquipped()) Console.WriteLine($"\t\t\tWeapon\t\t {character.ItemEquipped.Name.ToUpper()}");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             Console.WriteLine("======================================================");
         }

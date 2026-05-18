@@ -19,29 +19,35 @@ namespace TheCoreBattle
 
         //TODO 
         //NOT SURE CZY TRZEBA TUTAJ PLAYERA
-        void Run(Character character, Item item, Player player);
+        void Run(Character character, ConsumableItem item, Player player);
     }
 
     public class GearInteraction
     {
-        public void Equip(Character character, Player player)
+        public void EquipUnequipItem(Character character, Player player)
         {
-            //TO DO DODAĆ ZDEJMOWANIE ITEMÓW
-            character.GearEquipped = player.partyGear[0];
-            player.partyGear.Remove(player.partyGear[0]);
-            character.HasGearEquipped = true;
+            if(character.HasGearEquipped())
+            {
+                player.ItemManager.partyItems.Add(character.ItemEquipped);
+                character.ItemEquipped = null;
+            }
+            else
+            {
+                character.ItemEquipped = player.ItemManager.partyItems[0];
+                player.ItemManager.partyItems.Remove(player.ItemManager.partyItems[0]);
+            }
         }
     }
     public class GearAttack
     {
         public void Run(Character character, Character target)
         {
-            AttackResult attackData = character.GearEquipped.Attack.GetAttackDamage();
+            AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
             target.CurrentHealth = target.CurrentHealth - attackData.Damage;
             // TODO DOADĆ MOŻE CHAT KTÓRY DISPLAYUJE TO WSZYSTKO?
             // TYPU PASSUJEMY MU CHARACTER, TARGET, TYP ATTACKU I ON Z TEGO SKLEJA TEKST?
-            Console.WriteLine($"{character.Name} used {character.GearEquipped.Name} on {target.Name}");
-            Console.WriteLine($"{character.GearEquipped.Name} dealt {attackData.Damage} to {target.Name}");
+            Console.WriteLine($"{character.Name} used {character.ItemEquipped.Name} on {target.Name}");
+            Console.WriteLine($"{character.ItemEquipped.Name} dealt {attackData.Damage} to {target.Name}");
             Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
         }
     }
@@ -54,7 +60,7 @@ namespace TheCoreBattle
     }
     public class UsePotion : ISingleCharacterActionWithItem
     {
-        public void Run(Character character, Item item, Player player)
+        public void Run(Character character, ConsumableItem item, Player player)
         {
             item.UseItem(character);
             Console.WriteLine($"{character.Name} used {item.Name}!");

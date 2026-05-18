@@ -52,11 +52,23 @@
                 Character enemySkeleton2 = new Skeleton();
                 _monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
                 _monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
+                
+                Potion potion = new Potion();
+                Potion potionTwo = new Potion();
+                _monsterPlayer.ItemManager.AddConsumableItem(potion);
+                _monsterPlayer.ItemManager.AddConsumableItem(potionTwo);
+
+                Dagger dagger = new Dagger();
+                Dagger daggerTwo = new Dagger();
+                _monsterPlayer.ItemManager.AddItems(dagger);
+                _monsterPlayer.ItemManager.AddItems(daggerTwo);
             }
             else if (currentBattleIndex == 2)
             {
                 Character theUncodedOne = new UncodedOne();
                 _monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
+                Potion potion = new Potion();
+                _monsterPlayer.ItemManager.AddConsumableItem(potion);
             }
             currentBattleIndex++;
         }

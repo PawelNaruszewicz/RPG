@@ -1,24 +1,18 @@
-﻿
-
-namespace TheCoreBattle
+﻿namespace TheCoreBattle
 {
     public abstract class Item
     {
         public abstract string Name { get; }
-        public abstract void UseItem(Character character);
+        public abstract IAttack Attack { get; }
     }
-    public class Potion : Item
+    public class Sword : Item
     {
-        public int healthValue { get; }
-        public override string Name => "Health Potion";
-        public Potion()
-        {
-            healthValue = 10;
-        }
-        public override void UseItem(Character character)
-        {
-            character.CurrentHealth = character.CurrentHealth + healthValue;
-        }
-
+        public override string Name => "Sword";
+        public override IAttack Attack => new SwordAttack();
+    }
+    public class Dagger : Item
+    {
+        public override string Name => "Dagger";
+        public override IAttack Attack => new DaggerAttack();
     }
 }

@@ -67,13 +67,21 @@
             //TODO REFACTOR, BRZYDKIE LOSOWANIE IMO
             //KAŻDE DODANIE AKCJI POWOUJE, ŻE W AI TEŻ MUSZĘ INKREMENTOWAĆ ILOŚC AKCJI 
             int chosenAction = 1;
-            if (_currentPlayer.partyItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
+            if (_currentPlayer.ItemManager.partyConsumableItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
             {
                 if (Random.Shared.Next(0, 4) == 0) chosenAction = 3;
                 else
                 {
                     chosenAction = Random.Shared.Next(1, 3);
                 }
+            }
+            else if(characterThatAttacks.HasGearEquipped() == false)
+            {
+                if (Random.Shared.Next(0, 2) == 0) chosenAction = 4;
+            }
+            else if (characterThatAttacks.HasGearEquipped())
+            {
+                chosenAction = 5;
             }
             else
             {
@@ -87,17 +95,16 @@
                 characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
             else if (chosenAction == 3)
             {
-                characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.partyItems[0], _currentPlayer);
-                _currentPlayer.partyItems.Remove(_currentPlayer.partyItems[0]);
+                characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.partyConsumableItems[0], _currentPlayer);
+                _currentPlayer.ItemManager.partyConsumableItems.Remove(_currentPlayer.ItemManager.partyConsumableItems[0]);
             }
-            else if(chosenAction ==4)
+            else if (chosenAction == 4)
             {
-                if(characterThatAttacks.HasGearEquipped)
-                    characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter);
-                else
-                {
-                    characterThatAttacks.EquipGear.Equip(characterThatAttacks, _currentPlayer);
-                }
+                    characterThatAttacks.EquipGear.EquipUnequipItem(characterThatAttacks, _currentPlayer);
+            }
+            else if (chosenAction == 5)
+            {
+                characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter);
             }
             else
             {
@@ -118,22 +125,22 @@
             Potion potion = new Potion();
             Potion potionOne = new Potion();
             Potion potionTwo = new Potion();
-            _playerOne.AddItemsToMyTeam(potion);
-            _playerOne.AddItemsToMyTeam(potionOne);
-            _playerOne.AddItemsToMyTeam(potionTwo);
+            _playerOne.ItemManager.AddConsumableItem(potion);
+            _playerOne.ItemManager.AddConsumableItem(potionOne);
+            _playerOne.ItemManager.AddConsumableItem(potionTwo);
 
-            //TODO
-            //SWORD POWINIEN BYĆ EQUIPPED
-            //TAK SAMO DAGGER NA DOLE
-            Gear sword = new Sword();
-            _playerOne.AddGearToMyTeam(sword);
+            Item sword = new Sword();
+            _playerOne.ItemManager.AddItems(sword);
+            _playerOne.myCharacterList[0].ItemEquipped = sword;
 
-            
-            Gear dagger = new Dagger();
-            _playerTwo.AddGearToMyTeam(dagger);
+
+            Item dagger = new Dagger();
+            _playerTwo.ItemManager.AddItems(dagger);
+            _playerTwo.myCharacterList[0].ItemEquipped = dagger;
+
 
             Potion potionEnemy = new Potion();
-            _playerTwo.AddItemsToMyTeam(potionEnemy);
+            _playerTwo.ItemManager.AddConsumableItem(potionEnemy);
         }
 
 

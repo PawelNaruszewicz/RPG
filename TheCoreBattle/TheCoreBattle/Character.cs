@@ -12,8 +12,8 @@
         
 
         //TO DO DODAĆ SETTING ITEMÓW, sprwadzenie czy możesz
-        public Gear GearEquipped { get; set; }
-        public bool HasGearEquipped = false;
+        public Item ItemEquipped { get; set; }
+        //public bool HasGearEquipped = false;
         public GearAttack UseGearAction => new GearAttack();
         public GearInteraction EquipGear => new GearInteraction();
 
@@ -33,6 +33,11 @@
         public override string ToString()
         {
             return ($"Name is {Name}, Health is {CurrentHealth}, Team is {Team}, Max Health is {MaxHealth}");
+        }
+        public bool HasGearEquipped()
+        {
+            if (ItemEquipped == null) return false;
+            else return true;
         }
     }
 }
