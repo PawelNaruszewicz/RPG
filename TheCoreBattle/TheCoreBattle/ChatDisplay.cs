@@ -24,8 +24,8 @@
         {
             int actionIntToReturn;
             List<int> allowedChar = new List<int> { 1, 2 };
-            if (currentPlayer.ItemManager.partyConsumableItems.Count != 0) allowedChar.Add(3);
-            if (currentPlayer.ItemManager.partyItems.Count != 0 || character.HasGearEquipped()) allowedChar.Add(4);
+            if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedChar.Add(3);
+            if (currentPlayer.ItemManager.PartyItems.Count != 0 || character.HasGearEquipped()) allowedChar.Add(4);
             if (character.HasGearEquipped()) allowedChar.Add(5);
 
             while (true)
@@ -34,10 +34,10 @@
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
 
-                if (currentPlayer.ItemManager.partyConsumableItems.Count != 0) Console.WriteLine($"3 - Use Potion");
+                if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) Console.WriteLine($"3 - Use Potion");
                 //to do może iterować po itemach wszystkich? trzeba by dodać opcje
                 //brzydka ta logika mocno tutaj
-                if (currentPlayer.ItemManager.partyItems.Count != 0 && character.HasGearEquipped() == false) Console.WriteLine($"4 - Equip Item {currentPlayer.ItemManager.partyItems[0].Name}");
+                if (currentPlayer.ItemManager.PartyItems.Count != 0 && character.HasGearEquipped() == false) Console.WriteLine($"4 - Equip One Of Your Items");
                 else if(character.HasGearEquipped() == true) Console.WriteLine($"4 - Unequip Item {character.ItemEquipped.Name}");
 
                 if (character.HasGearEquipped() == true) Console.WriteLine($"5 - Attack Using {character.ItemEquipped.Name}");
@@ -55,6 +55,7 @@
             }
             return actionIntToReturn;
         }
+
         public string GetHeroName()
         {
             string? name;

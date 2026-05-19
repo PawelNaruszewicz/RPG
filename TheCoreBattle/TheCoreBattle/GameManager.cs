@@ -96,7 +96,5 @@
             playerOneBool = _playerOneBool;
             playerTwoBool = _playerTwoBool;
         }
-
-
     }
 }

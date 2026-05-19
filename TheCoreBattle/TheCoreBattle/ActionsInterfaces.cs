@@ -16,29 +16,27 @@ namespace TheCoreBattle
     }
     public interface ISingleCharacterActionWithItem
     {
-
-        //TODO 
-        //NOT SURE CZY TRZEBA TUTAJ PLAYERA
-        void Run(Character character, ConsumableItem item, Player player);
+        void Run(Character character, ConsumableItem item);
     }
 
     public class GearInteraction
     {
-        public void EquipUnequipItem(Character character, Player player)
+        public void EquipUnequipItem(Character character, Player player, Item item)
         {
             if(character.HasGearEquipped())
             {
-                player.ItemManager.partyItems.Add(character.ItemEquipped);
+                //NULL ZŁYM ROZWIĄZANIEM, BO ZAMIENIA ITEM W NULLA
                 character.ItemEquipped = null;
+                player.ItemManager.AddItems(character.ItemEquipped);
             }
             else
             {
-                character.ItemEquipped = player.ItemManager.partyItems[0];
-                player.ItemManager.partyItems.Remove(player.ItemManager.partyItems[0]);
+                character.ItemEquipped = item;
+                player.ItemManager.PartyItems.Remove(item);
             }
         }
     }
-    public class GearAttack
+    public class GearAttack : IAction
     {
         public void Run(Character character, Character target)
         {
@@ -60,7 +58,7 @@ namespace TheCoreBattle
     }
     public class UsePotion : ISingleCharacterActionWithItem
     {
-        public void Run(Character character, ConsumableItem item, Player player)
+        public void Run(Character character, ConsumableItem item)
         {
             item.UseItem(character);
             Console.WriteLine($"{character.Name} used {item.Name}!");

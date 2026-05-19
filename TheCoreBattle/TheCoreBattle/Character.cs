@@ -12,10 +12,10 @@
         
 
         //TO DO DODAĆ SETTING ITEMÓW, sprwadzenie czy możesz
-        public Item ItemEquipped { get; set; }
+        public Item? ItemEquipped { get; set; }
         //public bool HasGearEquipped = false;
         public GearAttack UseGearAction => new GearAttack();
-        public GearInteraction EquipGear => new GearInteraction();
+        public GearInteraction EquipGear { get; } = new GearInteraction();
 
         private int _hp;
         public int CurrentHealth

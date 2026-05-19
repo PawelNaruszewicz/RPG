@@ -67,7 +67,7 @@
             //TODO REFACTOR, BRZYDKIE LOSOWANIE IMO
             //KAŻDE DODANIE AKCJI POWOUJE, ŻE W AI TEŻ MUSZĘ INKREMENTOWAĆ ILOŚC AKCJI 
             int chosenAction = 1;
-            if (_currentPlayer.ItemManager.partyConsumableItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
+            if (_currentPlayer.ItemManager.PartyConsumableItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
             {
                 if (Random.Shared.Next(0, 4) == 0) chosenAction = 3;
                 else
@@ -75,7 +75,7 @@
                     chosenAction = Random.Shared.Next(1, 3);
                 }
             }
-            else if(characterThatAttacks.HasGearEquipped() == false)
+            else if (characterThatAttacks.HasGearEquipped() == false)
             {
                 if (Random.Shared.Next(0, 2) == 0) chosenAction = 4;
             }
@@ -95,12 +95,36 @@
                 characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
             else if (chosenAction == 3)
             {
-                characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.partyConsumableItems[0], _currentPlayer);
-                _currentPlayer.ItemManager.partyConsumableItems.Remove(_currentPlayer.ItemManager.partyConsumableItems[0]);
+                //usuwanie po idkach gdy dodam więcej potków, tak jak w itemkach
+                characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.PartyConsumableItems[0]);
+                _currentPlayer.ItemManager.PartyConsumableItems.Remove(_currentPlayer.ItemManager.PartyConsumableItems[0]);
             }
             else if (chosenAction == 4)
             {
-                    characterThatAttacks.EquipGear.EquipUnequipItem(characterThatAttacks, _currentPlayer);
+                if (characterThatAttacks.HasGearEquipped())
+                {
+                    characterThatAttacks.EquipGear.EquipUnequipItem(characterThatAttacks, _currentPlayer, characterThatAttacks.ItemEquipped);
+                }
+                else
+                {
+                    while (true)
+                    {
+                        Console.WriteLine("Pick which item do you want?");
+                        _currentPlayer.ItemManager.DisplayCurrentItems();
+
+                        string input = "";
+                        if (int.TryParse(Console.ReadLine(), out int result))
+                        {
+                            if (result >= 0 && result <= _currentPlayer.ItemManager.PartyItems.Count)
+                            {
+                                characterThatAttacks.EquipGear.EquipUnequipItem(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
             }
             else if (chosenAction == 5)
             {
@@ -130,14 +154,11 @@
             _playerOne.ItemManager.AddConsumableItem(potionTwo);
 
             Item sword = new Sword();
-            _playerOne.ItemManager.AddItems(sword);
             _playerOne.myCharacterList[0].ItemEquipped = sword;
 
 
             Item dagger = new Dagger();
-            _playerTwo.ItemManager.AddItems(dagger);
             _playerTwo.myCharacterList[0].ItemEquipped = dagger;
-
 
             Potion potionEnemy = new Potion();
             _playerTwo.ItemManager.AddConsumableItem(potionEnemy);
