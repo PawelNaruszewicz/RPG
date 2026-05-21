@@ -56,7 +56,6 @@ namespace TheCoreBattle
         {
             if (character.HasGearEquipped())
             {
-                Console.WriteLine($"DEBIUG {character.Name} - CHARACTER NAME // {item.Name} -- ITEM // {character.ItemEquipped.Name} -- character item equipped name");
                 AddItems(character.ItemEquipped);
                 character.ItemEquipped = null;
             }
