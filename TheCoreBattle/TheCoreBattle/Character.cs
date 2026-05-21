@@ -13,7 +13,6 @@
 
         //TO DO DODAĆ SETTING ITEMÓW, sprwadzenie czy możesz
         public Item? ItemEquipped { get; set; }
-        //public bool HasGearEquipped = false;
         public GearAttack UseGearAction => new GearAttack();
         public GearInteraction EquipGear { get; } = new GearInteraction();
 
@@ -34,6 +33,20 @@
         {
             return ($"Name is {Name}, Health is {CurrentHealth}, Team is {Team}, Max Health is {MaxHealth}");
         }
+        //fajnie by to było przerzucić do item manager
+        //public void EquipUnequipItem(Player player, Item item)
+        //{
+        //    if (HasGearEquipped())
+        //    {
+        //        player.ItemManager.AddItems(ItemEquipped);
+        //        ItemEquipped = null;
+        //    }
+        //    else
+        //    {
+        //        ItemEquipped = item;
+        //        player.ItemManager.RemoveItems(item);
+        //    }
+        //}
         public bool HasGearEquipped()
         {
             if (ItemEquipped == null) return false;

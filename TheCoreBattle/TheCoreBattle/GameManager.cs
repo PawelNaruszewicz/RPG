@@ -6,7 +6,7 @@
         private Player _playerTwo;
         private Player _monsterPlayer;
 
-        public bool RunGame = true;
+        public bool RunGame { get; private set; } = true;
         ChatDisplay chatDisplay = new ChatDisplay();
         private int currentBattleIndex = 0;
         public void Run()

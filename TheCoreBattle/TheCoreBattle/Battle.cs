@@ -154,11 +154,10 @@
             _playerOne.ItemManager.AddConsumableItem(potionTwo);
 
             Item sword = new Sword();
-            _playerOne.myCharacterList[0].ItemEquipped = sword;
-
+            _playerOne.ItemManager.EquipUnequipItem(_playerOne.myCharacterList[0], sword);
 
             Item dagger = new Dagger();
-            _playerTwo.myCharacterList[0].ItemEquipped = dagger;
+            _playerTwo.ItemManager.EquipUnequipItem(_playerOne.myCharacterList[0], dagger);
 
             Potion potionEnemy = new Potion();
             _playerTwo.ItemManager.AddConsumableItem(potionEnemy);

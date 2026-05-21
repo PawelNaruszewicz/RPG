@@ -23,17 +23,7 @@ namespace TheCoreBattle
     {
         public void EquipUnequipItem(Character character, Player player, Item item)
         {
-            if(character.HasGearEquipped())
-            {
-                //NULL ZŁYM ROZWIĄZANIEM, BO ZAMIENIA ITEM W NULLA
-                character.ItemEquipped = null;
-                player.ItemManager.AddItems(character.ItemEquipped);
-            }
-            else
-            {
-                character.ItemEquipped = item;
-                player.ItemManager.PartyItems.Remove(item);
-            }
+            player.ItemManager.EquipUnequipItem(character, item);
         }
     }
     public class GearAttack : IAction

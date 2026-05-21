@@ -3,7 +3,7 @@ namespace TheCoreBattle
 {
     public class ItemManager
     {
-        public List<ConsumableItem> PartyConsumableItems { get; set; }
+        public List<ConsumableItem> PartyConsumableItems { get; private set; }
         public List<Item> PartyItems { get; private set; }
         
         public ItemManager ()
@@ -15,9 +15,17 @@ namespace TheCoreBattle
         {
             PartyConsumableItems.Add(item);
         }
-        public void AddItems(Item gear)
+        public void RemoveConsumableItem(ConsumableItem item)
         {
-            PartyItems.Add(gear);
+            PartyConsumableItems.Remove(item);
+        }
+        public void AddItems(Item item)
+        {
+            PartyItems.Add(item);
+        }
+        public void RemoveItems(Item item)
+        {
+            PartyItems.Remove(item);
         }
         public void DisplayCurrentItems()
         {
@@ -35,11 +43,27 @@ namespace TheCoreBattle
         }
         public Item GetItemByID(int ID)
         {
+            //wywala błąd jak jest poza ID
             if (PartyItems[ID] != null) return PartyItems[ID];
             else
             {
                 Console.WriteLine("Haven't found an item in this ID, returning default dagger");
                 return new Dagger();
+            }
+        }
+        //TO DO, TO POWINNO ZARZĄDZAĆ ADD / REMOVE ITEM CHYBA?
+        public void EquipUnequipItem(Character character, Item item)
+        {
+            if (character.HasGearEquipped())
+            {
+                Console.WriteLine($"DEBIUG {character.Name} - CHARACTER NAME // {item.Name} -- ITEM // {character.ItemEquipped.Name} -- character item equipped name");
+                AddItems(character.ItemEquipped);
+                character.ItemEquipped = null;
+            }
+            else
+            {
+                character.ItemEquipped = item;
+                RemoveItems(item);
             }
         }
     }

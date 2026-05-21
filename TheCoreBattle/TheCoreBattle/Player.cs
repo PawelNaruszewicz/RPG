@@ -5,7 +5,7 @@
         public List<Character> myCharacterList { get; set; }
         public Team Team { get; }
         public bool IsHuman { get; }
-        public ItemManager ItemManager = new ItemManager();
+        public ItemManager ItemManager { get; private set; } = new ItemManager();
         public Player(Team team, bool isHuman)
         {
             myCharacterList = new List<Character>();
