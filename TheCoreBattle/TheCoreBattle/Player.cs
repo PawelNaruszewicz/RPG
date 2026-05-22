@@ -21,6 +21,7 @@
         }
         public void CharacterDied(Character characterToRemove)
         {
+            if (characterToRemove.HasGearEquipped()) ItemManager.ManipulateEquippedItem(characterToRemove, characterToRemove.ItemEquipped);
             myCharacterList.Remove(characterToRemove);
         }
     }

@@ -21,9 +21,9 @@ namespace TheCoreBattle
 
     public class GearInteraction
     {
-        public void EquipUnequipItem(Character character, Player player, Item item)
+        public void ManipulateItems(Character character, Player player, Item item)
         {
-            player.ItemManager.EquipUnequipItem(character, item);
+            player.ItemManager.ManipulateEquippedItem(character, item);
         }
     }
     public class GearAttack : IAction

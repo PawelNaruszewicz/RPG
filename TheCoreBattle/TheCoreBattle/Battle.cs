@@ -89,6 +89,7 @@
             }
             return chosenAction;
         }
+        //to do refaktor tutaj się przyda, jest najebane różnnych rzeczy, battle odpowiada za za dużo rzeczy?
         private void UseAction(int chosenAction, Character characterThatAttacks, Character targetCharacter)
         {
             if (chosenAction == 2)
@@ -103,26 +104,11 @@
             {
                 if (characterThatAttacks.HasGearEquipped())
                 {
-                    characterThatAttacks.EquipGear.EquipUnequipItem(characterThatAttacks, _currentPlayer, characterThatAttacks.ItemEquipped);
+                    characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, characterThatAttacks.ItemEquipped);
                 }
                 else
                 {
-                    while (true)
-                    {
-                        Console.WriteLine("Pick which item do you want?");
-                        _currentPlayer.ItemManager.DisplayCurrentItems();
-
-                        string input = "";
-                        if (int.TryParse(Console.ReadLine(), out int result))
-                        {
-                            if (result >= 0 && result <= _currentPlayer.ItemManager.PartyItems.Count)
-                            {
-                                characterThatAttacks.EquipGear.EquipUnequipItem(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
-                                break;
-                            }
-                        }
-
-                    }
+                    DecideWhichItemToEquip(characterThatAttacks);
                 }
 
             }
@@ -137,6 +123,27 @@
             _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
         }
+
+        private void DecideWhichItemToEquip(Character characterThatAttacks)
+        {
+            while (true)
+            {
+                Console.WriteLine("Pick which item do you want to equip?");
+                _currentPlayer.ItemManager.DisplayCurrentItems();
+
+                string input = "";
+                if (int.TryParse(Console.ReadLine(), out int result))
+                {
+                    if (result >= 0 && result < _currentPlayer.ItemManager.PartyItems.Count)
+                    {
+                        characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
+                        break;
+                    }
+                }
+
+            }
+        }
+
         //REFACTOR / TODO
         //RACZEJ POWINNO BYĆ W GAMEMANAGERZE
 
@@ -154,10 +161,10 @@
             _playerOne.ItemManager.AddConsumableItem(potionTwo);
 
             Item sword = new Sword();
-            _playerOne.ItemManager.EquipUnequipItem(_playerOne.myCharacterList[0], sword);
+            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.myCharacterList[0], sword);
 
             Item dagger = new Dagger();
-            _playerTwo.ItemManager.EquipUnequipItem(_playerTwo.myCharacterList[0], dagger);
+            _playerTwo.ItemManager.ManipulateEquippedItem(_playerTwo.myCharacterList[0], dagger);
 
             Potion potionEnemy = new Potion();
             _playerTwo.ItemManager.AddConsumableItem(potionEnemy);

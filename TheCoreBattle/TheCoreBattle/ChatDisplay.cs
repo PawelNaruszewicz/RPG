@@ -22,6 +22,7 @@
         }
         public int GetAction(Character character, Player currentPlayer)
         {
+            //DODAĆ OPCJE DISPLAY MY CURRENT ITEMS, KTÓRA WRACA DO WYBORU AKCJI?
             int actionIntToReturn;
             List<int> allowedChar = new List<int> { 1, 2 };
             if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedChar.Add(3);

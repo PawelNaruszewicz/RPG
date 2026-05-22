@@ -5,7 +5,6 @@ namespace TheCoreBattle
     {
         public List<ConsumableItem> PartyConsumableItems { get; private set; }
         public List<Item> PartyItems { get; private set; }
-        
         public ItemManager ()
         {
             PartyConsumableItems = new List<ConsumableItem>();
@@ -43,7 +42,6 @@ namespace TheCoreBattle
         }
         public Item GetItemByID(int ID)
         {
-            //wywala błąd jak jest poza ID
             if (PartyItems[ID] != null) return PartyItems[ID];
             else
             {
@@ -52,7 +50,7 @@ namespace TheCoreBattle
             }
         }
         //TO DO, TO POWINNO ZARZĄDZAĆ ADD / REMOVE ITEM CHYBA?
-        public void EquipUnequipItem(Character character, Item item)
+        public void ManipulateEquippedItem(Character character, Item item)
         {
             if (character.HasGearEquipped())
             {

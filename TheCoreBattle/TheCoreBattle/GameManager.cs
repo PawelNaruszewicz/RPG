@@ -41,6 +41,10 @@
         public void TryCreateEnemiesForCurrentBattle()
         {
             if (_monsterPlayer.myCharacterList.Count != 0) return;
+            else
+            {
+                MoveItemsToTheWinner(_playerOne.ItemManager, _playerTwo.ItemManager);
+            }
             if (currentBattleIndex == 0)
             {
                 Character enemySkeleton = new Skeleton();
@@ -52,7 +56,7 @@
                 Character enemySkeleton2 = new Skeleton();
                 _monsterPlayer.AddCharacterToMyTeam(enemySkeleton1);
                 _monsterPlayer.AddCharacterToMyTeam(enemySkeleton2);
-                
+
                 Potion potion = new Potion();
                 Potion potionTwo = new Potion();
                 _monsterPlayer.ItemManager.AddConsumableItem(potion);
@@ -71,6 +75,20 @@
                 _monsterPlayer.ItemManager.AddConsumableItem(potion);
             }
             currentBattleIndex++;
+        }
+        public void MoveItemsToTheWinner(ItemManager playerItems, ItemManager opponentItems)
+        {
+            for(int i = 0; i < opponentItems.PartyItems.Count; i++)
+            {
+                playerItems.PartyItems.Add(opponentItems.PartyItems[i]);
+                opponentItems.PartyItems.Remove(opponentItems.PartyItems[i]);
+            }
+            for (int i = 0; i < opponentItems.PartyConsumableItems.Count; i++)
+            {
+                playerItems.PartyConsumableItems.Add(opponentItems.PartyConsumableItems[i]);
+                opponentItems.PartyConsumableItems.Remove(opponentItems.PartyConsumableItems[i]);
+            }
+
         }
         public void ChooseGameMode(out bool playerOneBool, out bool playerTwoBool)
         {
