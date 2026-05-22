@@ -116,6 +116,12 @@
             {
                 characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter);
             }
+            else if(chosenAction == 10)
+            {
+                //TODO COŚ TUTAJ NIE DZIAŁA
+                _currentPlayer.ItemManager.DisplayCurrentItems();
+                DecideAction(characterThatAttacks);
+            }
             else
             {
                 characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter);
@@ -123,7 +129,7 @@
             _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
         }
-
+        //TO DO AI GRACZ NIE WIE KTÓRE WYBRAĆ
         private void DecideWhichItemToEquip(Character characterThatAttacks)
         {
             while (true)

@@ -28,6 +28,7 @@
             if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedChar.Add(3);
             if (currentPlayer.ItemManager.PartyItems.Count != 0 || character.HasGearEquipped()) allowedChar.Add(4);
             if (character.HasGearEquipped()) allowedChar.Add(5);
+            if (currentPlayer.ItemManager.PartyItems.Count != 0) allowedChar.Add(10);
 
             while (true)
             {
@@ -43,6 +44,7 @@
 
                 if (character.HasGearEquipped() == true) Console.WriteLine($"5 - Attack Using {character.ItemEquipped.Name}");
 
+                if (currentPlayer.ItemManager.PartyItems.Count != 0) Console.WriteLine("10 - Display current items");
 
                 if (int.TryParse(Console.ReadLine(), out int Y))
                 {

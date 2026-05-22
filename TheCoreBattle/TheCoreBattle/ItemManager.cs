@@ -28,10 +28,12 @@ namespace TheCoreBattle
         }
         public void DisplayCurrentItems()
         {
-            for(int i = 0; i < PartyItems.Count; i++)
+            Console.WriteLine($"Items in party inventory are:");
+            for (int i = 0; i < PartyItems.Count; i++)
             {
                 Console.WriteLine($"{i} - {PartyItems[i].Name}");
             }
+            Console.WriteLine();
         }
         public void DisplayCurrentConsumables()
         {
