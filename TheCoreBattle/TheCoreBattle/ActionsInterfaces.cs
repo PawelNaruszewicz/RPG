@@ -8,7 +8,7 @@ namespace TheCoreBattle
     }
     public interface IAction
     {
-        void Run(Character character, Character target);
+        void Run(Character character, Character target, ChatDisplay chatDisplay, bool normalAttack);
     }
     public interface IDoNothingAction
     {
@@ -24,19 +24,6 @@ namespace TheCoreBattle
         public void ManipulateItems(Character character, Player player, Item item)
         {
             player.ItemManager.ManipulateEquippedItem(character, item);
-        }
-    }
-    public class GearAttack : IAction
-    {
-        public void Run(Character character, Character target)
-        {
-            AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
-            target.CurrentHealth = target.CurrentHealth - attackData.Damage;
-            // TODO DOADĆ MOŻE CHAT KTÓRY DISPLAYUJE TO WSZYSTKO?
-            // TYPU PASSUJEMY MU CHARACTER, TARGET, TYP ATTACKU I ON Z TEGO SKLEJA TEKST?
-            Console.WriteLine($"{character.Name} used {character.ItemEquipped.Name} on {target.Name}");
-            Console.WriteLine($"{character.ItemEquipped.Name} dealt {attackData.Damage} to {target.Name}");
-            Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
         }
     }
     public class DoNothing : IDoNothingAction
@@ -57,14 +44,24 @@ namespace TheCoreBattle
     }
     public class BasicAction : IAction
     {
-        public void Run(Character character, Character target)
+        public void Run(Character character, Character target, ChatDisplay chatDisplay, bool normalAttack)
         {
-            AttackResult attackData = character.BasicAttack.GetAttackDamage();
+            if(normalAttack)
+            {
+                AttackResult attackData = character.BasicAttack.GetAttackDamage();
 
-            target.CurrentHealth = target.CurrentHealth - attackData.Damage;
-            Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {target.Name}");
-            Console.WriteLine($"{character.BasicAttack.Name} dealt {attackData.Damage} to {target.Name}");
-            Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
+                target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+
+                chatDisplay.DisplayAttack(character, target, attackData, normalAttack);
+            }
+            else
+            {
+                AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
+                target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+
+                chatDisplay.DisplayAttack(character, target, attackData, normalAttack);
+            }
+
         }
     }
     public record AttackResult(int Damage);

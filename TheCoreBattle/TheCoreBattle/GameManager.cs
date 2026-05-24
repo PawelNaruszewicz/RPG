@@ -5,9 +5,10 @@
         private Player _playerOne;
         private Player _playerTwo;
         private Player _monsterPlayer;
+        
+        ChatDisplay chatDisplay = new ChatDisplay();
 
         public bool RunGame { get; private set; } = true;
-        ChatDisplay chatDisplay = new ChatDisplay();
         private int currentBattleIndex = 0;
         public void Run()
         {
@@ -19,6 +20,38 @@
             _monsterPlayer = _playerTwo;
             Battle battle = new Battle();
             battle.Run(this, _playerOne, _playerTwo);
+        }
+        public void SetupFirstBattle()
+        {
+            if (_playerOne.IsHuman)
+            {
+                Character heroName = new Hero(chatDisplay.GetHeroName());
+                _playerOne.AddCharacterToMyTeam(heroName);
+            }
+            else
+            {
+                Character heroName = new Hero("True Programmer");
+                _playerOne.AddCharacterToMyTeam(heroName);
+            }
+            TryCreateEnemiesForCurrentBattle();
+
+            Potion potion = new Potion();
+            Potion potionOne = new Potion();
+            Potion potionTwo = new Potion();
+            _playerOne.ItemManager.AddConsumableItem(potion);
+            _playerOne.ItemManager.AddConsumableItem(potionOne);
+            _playerOne.ItemManager.AddConsumableItem(potionTwo);
+
+            Item dagger2 = new Dagger();
+            _playerOne.ItemManager.AddItems(dagger2);
+            Item sword = new Sword();
+            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.myCharacterList[0], sword);
+
+            Item dagger = new Dagger();
+            _playerTwo.ItemManager.ManipulateEquippedItem(_playerTwo.myCharacterList[0], dagger);
+
+            Potion potionEnemy = new Potion();
+            _playerTwo.ItemManager.AddConsumableItem(potionEnemy);
         }
         public void CheckIfCharacterDies(Player oppositePlayer)
         {
@@ -43,7 +76,7 @@
             if (_monsterPlayer.myCharacterList.Count != 0) return;
             else
             {
-                MoveItemsToTheWinner(_playerOne.ItemManager, _playerTwo.ItemManager);
+                _playerOne.ItemManager.MoveItems(_playerOne.ItemManager, _playerTwo.ItemManager);
             }
             if (currentBattleIndex == 0)
             {
@@ -76,20 +109,6 @@
             }
             currentBattleIndex++;
         }
-        public void MoveItemsToTheWinner(ItemManager playerItems, ItemManager opponentItems)
-        {
-            for(int i = 0; i < opponentItems.PartyItems.Count; i++)
-            {
-                playerItems.PartyItems.Add(opponentItems.PartyItems[i]);
-                opponentItems.PartyItems.Remove(opponentItems.PartyItems[i]);
-            }
-            for (int i = 0; i < opponentItems.PartyConsumableItems.Count; i++)
-            {
-                playerItems.PartyConsumableItems.Add(opponentItems.PartyConsumableItems[i]);
-                opponentItems.PartyConsumableItems.Remove(opponentItems.PartyConsumableItems[i]);
-            }
-
-        }
         public void ChooseGameMode(out bool playerOneBool, out bool playerTwoBool)
         {
             int chosenGameMode = chatDisplay.GetGameMode();
@@ -113,6 +132,11 @@
             }
             playerOneBool = _playerOneBool;
             playerTwoBool = _playerTwoBool;
+        }
+        public void VerifyBattleState(Player currentPlayer, Player oppositePlayer)
+        {
+            TryCreateEnemiesForCurrentBattle();
+            CheckIfGameOver(currentPlayer, oppositePlayer);
         }
     }
 }

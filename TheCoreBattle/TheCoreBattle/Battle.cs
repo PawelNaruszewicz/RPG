@@ -21,7 +21,7 @@
             _currentPlayer = playerOne;
             _oppositePlayer = playerTwo;
 
-            SetupFirstBattle();
+            gameManager.SetupFirstBattle();
 
             while (_gameManager.RunGame)
             {
@@ -40,16 +40,17 @@
                 _chatDisplay.DisplayBattleState(_currentPlayer, _oppositePlayer, characterThatAttacks);
 
 
+                _chatDisplay.DisplayTurn(characterThatAttacks);
                 int actionToMake = DecideAction(characterThatAttacks);
                 UseAction(actionToMake, characterThatAttacks, targetCharacter);
 
-                VerifyBattleState();
+                _gameManager.VerifyBattleState(_currentPlayer, _oppositePlayer);
             }
         }
         private int DecideAction(Character characterThatAttacks)
         {
             int actionToMake;
-            if (_currentPlayer.IsHuman == true)
+            if (_currentPlayer.IsHuman)
             {
                 actionToMake = _chatDisplay.GetAction(characterThatAttacks, _currentPlayer);
             }
@@ -58,7 +59,6 @@
                 actionToMake = AIGetAction(characterThatAttacks);
                 Thread.Sleep(1000);
             }
-            _chatDisplay.DisplayTurn(characterThatAttacks);
 
             return actionToMake;
         }
@@ -92,6 +92,8 @@
         //to do refaktor tutaj się przyda, jest najebane różnnych rzeczy, battle odpowiada za za dużo rzeczy?
         private void UseAction(int chosenAction, Character characterThatAttacks, Character targetCharacter)
         {
+            bool normalAttack = true;
+
             if (chosenAction == 2)
                 characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
             else if (chosenAction == 3)
@@ -114,77 +116,43 @@
             }
             else if (chosenAction == 5)
             {
-                characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter);
-            }
-            else if(chosenAction == 10)
-            {
-                //TODO COŚ TUTAJ NIE DZIAŁA
-                _currentPlayer.ItemManager.DisplayCurrentItems();
-                DecideAction(characterThatAttacks);
+                normalAttack = false;
+                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay, normalAttack);
             }
             else
             {
-                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter);
+                normalAttack = true;
+                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay, normalAttack);
             }
             _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
         }
-        //TO DO AI GRACZ NIE WIE KTÓRE WYBRAĆ
         private void DecideWhichItemToEquip(Character characterThatAttacks)
         {
-            while (true)
+            if (!_currentPlayer.IsHuman)
             {
-                Console.WriteLine("Pick which item do you want to equip?");
-                _currentPlayer.ItemManager.DisplayCurrentItems();
-
-                string input = "";
-                if (int.TryParse(Console.ReadLine(), out int result))
+                characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(0));
+            }
+            else
+            {
+                while (true)
                 {
-                    if (result >= 0 && result < _currentPlayer.ItemManager.PartyItems.Count)
+                    Console.WriteLine("Pick which item do you want to equip?");
+                    _currentPlayer.ItemManager.DisplayCurrentItems();
+
+                    string input = "";
+                    if (int.TryParse(Console.ReadLine(), out int result))
                     {
-                        characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
-                        break;
+                        if (result >= 0 && result < _currentPlayer.ItemManager.PartyItems.Count)
+                        {
+                            characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
+                            break;
+                        }
                     }
                 }
-
             }
         }
 
-        //REFACTOR / TODO
-        //RACZEJ POWINNO BYĆ W GAMEMANAGERZE
-
-        private void SetupFirstBattle()
-        {
-            Character heroName = new Hero(_chatDisplay.GetHeroName());
-            _playerOne.AddCharacterToMyTeam(heroName);
-            _gameManager.TryCreateEnemiesForCurrentBattle();
-
-            Potion potion = new Potion();
-            Potion potionOne = new Potion();
-            Potion potionTwo = new Potion();
-            _playerOne.ItemManager.AddConsumableItem(potion);
-            _playerOne.ItemManager.AddConsumableItem(potionOne);
-            _playerOne.ItemManager.AddConsumableItem(potionTwo);
-
-            Item sword = new Sword();
-            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.myCharacterList[0], sword);
-
-            Item dagger = new Dagger();
-            _playerTwo.ItemManager.ManipulateEquippedItem(_playerTwo.myCharacterList[0], dagger);
-
-            Potion potionEnemy = new Potion();
-            _playerTwo.ItemManager.AddConsumableItem(potionEnemy);
-        }
-
-
-
-        private void VerifyBattleState()
-        {
-            //TODO
-            //DODAĆ POTKI DLA PÓŹNIEJSZYCH POTWÓRÓW
-            _gameManager.TryCreateEnemiesForCurrentBattle();
-            _gameManager.CheckIfGameOver(_currentPlayer, _oppositePlayer);
-        }
 
     }
 }

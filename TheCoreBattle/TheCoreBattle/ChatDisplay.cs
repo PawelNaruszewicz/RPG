@@ -1,6 +1,6 @@
 ﻿namespace TheCoreBattle
 {
-    internal class ChatDisplay
+    public class ChatDisplay
     {
 
         public void DisplayTurn(Character character)
@@ -22,7 +22,6 @@
         }
         public int GetAction(Character character, Player currentPlayer)
         {
-            //DODAĆ OPCJE DISPLAY MY CURRENT ITEMS, KTÓRA WRACA DO WYBORU AKCJI?
             int actionIntToReturn;
             List<int> allowedChar = new List<int> { 1, 2 };
             if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedChar.Add(3);
@@ -37,10 +36,10 @@
                 Console.WriteLine($"2 - Do Nothing");
 
                 if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) Console.WriteLine($"3 - Use Potion");
-                //to do może iterować po itemach wszystkich? trzeba by dodać opcje
                 //brzydka ta logika mocno tutaj
+
                 if (currentPlayer.ItemManager.PartyItems.Count != 0 && character.HasGearEquipped() == false) Console.WriteLine($"4 - Equip One Of Your Items");
-                else if(character.HasGearEquipped() == true) Console.WriteLine($"4 - Unequip Item {character.ItemEquipped.Name}");
+                else if (character.HasGearEquipped() == true) Console.WriteLine($"4 - Unequip Item {character.ItemEquipped.Name}");
 
                 if (character.HasGearEquipped() == true) Console.WriteLine($"5 - Attack Using {character.ItemEquipped.Name}");
 
@@ -48,14 +47,20 @@
 
                 if (int.TryParse(Console.ReadLine(), out int Y))
                 {
+                    if (Y == 10)
+                    {
+                        currentPlayer.ItemManager.DisplayCurrentItems();
+                        continue;
+                    }
                     if (allowedChar.Contains(Y))
                     {
                         actionIntToReturn = Y;
                         break;
                     }
                 }
-                Console.WriteLine();
             }
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Magenta;
             return actionIntToReturn;
         }
 
@@ -90,6 +95,7 @@
         }
         public void DisplayBattleState(Player currentPlayer, Player playerTwo, Character currentCharacter)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("========================BATTLE========================");
             foreach (Character character in currentPlayer.myCharacterList)
             {
@@ -98,7 +104,7 @@
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 Console.WriteLine($"{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
-                if(character.HasGearEquipped()) Console.WriteLine($"Weapon\t {character.ItemEquipped.Name.ToUpper()}");
+                if (character.HasGearEquipped()) Console.WriteLine($"WEAPON\t {character.ItemEquipped.Name.ToUpper()}");
                 Console.ForegroundColor = ConsoleColor.White;
 
             }
@@ -107,10 +113,26 @@
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\t\t\t{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
-                if (character.HasGearEquipped()) Console.WriteLine($"\t\t\tWeapon\t\t {character.ItemEquipped.Name.ToUpper()}");
+                if (character.HasGearEquipped()) Console.WriteLine($"\t\t\tWEAPON\t\t {character.ItemEquipped.Name.ToUpper()}");
                 Console.ForegroundColor = ConsoleColor.White;
             }
             Console.WriteLine("======================================================");
+            Console.WriteLine();
+        }
+        public void DisplayAttack(Character character, Character target, AttackResult attackData, bool normalAttack)
+        {
+            if (normalAttack)
+            {
+                Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {target.Name}");
+                Console.WriteLine($"{character.BasicAttack.Name} dealt {attackData.Damage} to {target.Name}");
+            }
+            else
+            {
+                Console.WriteLine($"{character.Name} used {character.ItemEquipped.Name} on {target.Name}");
+                Console.WriteLine($"{character.ItemEquipped.Name} dealt {attackData.Damage} to {target.Name}");
+            }
+
+            Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
         }
     }
 }

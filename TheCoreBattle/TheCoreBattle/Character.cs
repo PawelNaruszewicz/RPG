@@ -11,7 +11,6 @@
         public BasicAction UseBasicAction => new BasicAction();
 
         public Item? ItemEquipped { get; set; }
-        public GearAttack UseGearAction => new GearAttack();
         public GearInteraction EquipGear { get; } = new GearInteraction();
 
         private int _hp;
