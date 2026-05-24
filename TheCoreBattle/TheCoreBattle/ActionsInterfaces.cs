@@ -8,7 +8,7 @@ namespace TheCoreBattle
     }
     public interface IAction
     {
-        void Run(Character character, Character target, ChatDisplay chatDisplay, bool normalAttack);
+        void Run(Character character, Character target, ChatDisplay chatDisplay);
     }
     public interface IDoNothingAction
     {
@@ -42,25 +42,25 @@ namespace TheCoreBattle
             Console.WriteLine($"{character.Name} healh is {character.CurrentHealth}/ {character.MaxHealth}");
         }
     }
+    public class GearAttack : IAction
+    {
+        public void Run(Character character, Character target, ChatDisplay chatDisplay)
+        {
+            AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
+            target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+
+            chatDisplay.DisplayWeaponAttack(character, target, attackData);
+
+        }
+    }
     public class BasicAction : IAction
     {
-        public void Run(Character character, Character target, ChatDisplay chatDisplay, bool normalAttack)
+        public void Run(Character character, Character target, ChatDisplay chatDisplay)
         {
-            if(normalAttack)
-            {
                 AttackResult attackData = character.BasicAttack.GetAttackDamage();
-
                 target.CurrentHealth = target.CurrentHealth - attackData.Damage;
 
-                chatDisplay.DisplayAttack(character, target, attackData, normalAttack);
-            }
-            else
-            {
-                AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
-                target.CurrentHealth = target.CurrentHealth - attackData.Damage;
-
-                chatDisplay.DisplayAttack(character, target, attackData, normalAttack);
-            }
+                chatDisplay.DisplayBasicAttack(character, target, attackData);
 
         }
     }

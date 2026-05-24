@@ -92,7 +92,7 @@
         //to do refaktor tutaj się przyda, jest najebane różnnych rzeczy, battle odpowiada za za dużo rzeczy?
         private void UseAction(int chosenAction, Character characterThatAttacks, Character targetCharacter)
         {
-            bool normalAttack = true;
+            //TO DO DODAĆ ENUM NA AKCJE
 
             if (chosenAction == 2)
                 characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
@@ -116,13 +116,11 @@
             }
             else if (chosenAction == 5)
             {
-                normalAttack = false;
-                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay, normalAttack);
+                characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
             }
             else
             {
-                normalAttack = true;
-                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay, normalAttack);
+                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
             }
             _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();

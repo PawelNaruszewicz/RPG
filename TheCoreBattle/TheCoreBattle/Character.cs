@@ -9,7 +9,7 @@
         public DoNothing DoNothingAction { get; } = new DoNothing();
         public UsePotion UsePotionAction { get; } = new UsePotion();
         public BasicAction UseBasicAction => new BasicAction();
-
+        public GearAttack UseGearAction => new GearAttack();
         public Item? ItemEquipped { get; set; }
         public GearInteraction EquipGear { get; } = new GearInteraction();
 

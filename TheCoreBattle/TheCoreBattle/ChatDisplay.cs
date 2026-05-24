@@ -119,20 +119,20 @@
             Console.WriteLine("======================================================");
             Console.WriteLine();
         }
-        public void DisplayAttack(Character character, Character target, AttackResult attackData, bool normalAttack)
+        public void DisplayBasicAttack(Character character, Character target, AttackResult attackData)
         {
-            if (normalAttack)
-            {
-                Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {target.Name}");
-                Console.WriteLine($"{character.BasicAttack.Name} dealt {attackData.Damage} to {target.Name}");
-            }
-            else
-            {
-                Console.WriteLine($"{character.Name} used {character.ItemEquipped.Name} on {target.Name}");
-                Console.WriteLine($"{character.ItemEquipped.Name} dealt {attackData.Damage} to {target.Name}");
-            }
 
+            Console.WriteLine($"{character.Name} used {character.BasicAttack.Name} on {target.Name}");
+            Console.WriteLine($"{character.BasicAttack.Name} dealt {attackData.Damage} to {target.Name}");
             Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
+        }
+        public void DisplayWeaponAttack(Character character, Character target, AttackResult attackData)
+        {
+            Console.WriteLine($"{character.Name} used {character.ItemEquipped.Name} on {target.Name}");
+            Console.WriteLine($"{character.ItemEquipped.Name} dealt {attackData.Damage} to {target.Name}");
+            Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
+
         }
     }
 }
+
