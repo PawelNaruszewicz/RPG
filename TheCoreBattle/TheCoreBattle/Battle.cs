@@ -10,6 +10,7 @@
 
         private ChatDisplay? _chatDisplay;
         private GameManager _gameManager;
+        private BattleAction _battleActioToTake;
         public void Run(GameManager gameManager, Player playerOne, Player playerTwo)
         {
             _gameManager = gameManager;
@@ -152,5 +153,7 @@
         }
 
 
+
     }
+    public enum BattleAction { Nothing, BasicAttack, GearAttack, ConsumableItem, Item}
 }
