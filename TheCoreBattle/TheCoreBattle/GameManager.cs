@@ -33,6 +33,11 @@
                 Character heroName = new Hero("True Programmer");
                 _playerOne.AddCharacterToMyTeam(heroName);
             }
+
+            Character vin = new VinFletcher();
+            _playerOne.AddCharacterToMyTeam(vin);
+
+
             TryCreateEnemiesForCurrentBattle();
 
             Potion potion = new Potion();
@@ -49,6 +54,9 @@
 
             Item dagger = new Dagger();
             _playerTwo.ItemManager.ManipulateEquippedItem(_playerTwo.myCharacterList[0], dagger);
+
+            Item bow = new Bow();
+            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.myCharacterList[1], bow);
 
             Potion potionEnemy = new Potion();
             _playerTwo.ItemManager.AddConsumableItem(potionEnemy);

@@ -123,10 +123,15 @@
         }
         public void DisplayWeaponAttack(Character character, Character target, AttackResult attackData)
         {
+            //todo przerobić system by korzystał z nazw ataków
             Console.WriteLine($"{character.Name} used {character.ItemEquipped.Name} on {target.Name}");
-            Console.WriteLine($"{character.ItemEquipped.Name} dealt {attackData.Damage} to {target.Name}");
+            Console.WriteLine($"{character.ItemEquipped.AttackName} dealt {attackData.Damage} to {target.Name}");
             Console.WriteLine($"{target.Name} is at {target.CurrentHealth} / {target.MaxHealth} HP");
 
+        }
+        public void DisplayMissedAttack(Character character, Character target)
+        {
+            Console.WriteLine($"{character.Name} MISSED his attack on {target.Name}!!");
         }
     }
 }

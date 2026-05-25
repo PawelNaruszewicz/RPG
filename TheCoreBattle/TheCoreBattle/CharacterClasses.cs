@@ -23,4 +23,10 @@ namespace TheCoreBattle
         public override IAttack BasicAttack { get; } = new UnravellAttack();
         public UncodedOne() : base(15, Team.Enemy) { }
     }
+    public class VinFletcher : Character
+    {
+        public override string Name => "Vin Fletcher";
+        public override IAttack BasicAttack { get; } = new Punch();
+        public VinFletcher() : base(15, Team.Player) { }
+    }
 }

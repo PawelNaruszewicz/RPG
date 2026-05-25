@@ -5,6 +5,7 @@ namespace TheCoreBattle
     {
         string Name { get; }
         AttackResult GetAttackDamage();
+        HitAccuracy GetHitChance();
     }
     public interface IAction
     {
@@ -47,9 +48,17 @@ namespace TheCoreBattle
         public void Run(Character character, Character target, ChatDisplay chatDisplay)
         {
             AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
-            target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+            HitAccuracy hitChance = character.ItemEquipped.Attack.GetHitChance();
 
-            chatDisplay.DisplayWeaponAttack(character, target, attackData);
+            if(Random.Shared.NextDouble() > hitChance.chanceToHit)
+            {
+                chatDisplay.DisplayMissedAttack(character, target);
+            }
+            else
+            {
+                target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+                chatDisplay.DisplayWeaponAttack(character, target, attackData);
+            }
 
         }
     }
@@ -65,4 +74,5 @@ namespace TheCoreBattle
         }
     }
     public record AttackResult(int Damage);
+    public record HitAccuracy(float chanceToHit);
 }
