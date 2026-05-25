@@ -20,14 +20,9 @@
             Console.WriteLine($"Team {playerWon.Team} has won!");
             Console.WriteLine($"{playerLost.Team} has been defetead");
         }
-        public int GetAction(Character character, Player currentPlayer)
+        public int DisplayAvailableAction(List<int> allowedChar, Character character, Player currentPlayer)
         {
             int actionIntToReturn;
-            List<int> allowedChar = new List<int> { 1, 2 };
-            if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedChar.Add(3);
-            if (currentPlayer.ItemManager.PartyItems.Count != 0 || character.HasGearEquipped()) allowedChar.Add(4);
-            if (character.HasGearEquipped()) allowedChar.Add(5);
-            if (currentPlayer.ItemManager.PartyItems.Count != 0) allowedChar.Add(10);
 
             while (true)
             {
@@ -35,15 +30,15 @@
                 Console.WriteLine($"1 - {character.BasicAttack.Name}");
                 Console.WriteLine($"2 - Do Nothing");
 
-                if (currentPlayer.ItemManager.PartyConsumableItems.Count != 0) Console.WriteLine($"3 - Use Potion");
+                if (allowedChar.Contains(3)) Console.WriteLine($"3 - Use Potion");
                 //brzydka ta logika mocno tutaj
 
                 if (currentPlayer.ItemManager.PartyItems.Count != 0 && character.HasGearEquipped() == false) Console.WriteLine($"4 - Equip One Of Your Items");
                 else if (character.HasGearEquipped() == true) Console.WriteLine($"4 - Unequip Item {character.ItemEquipped.Name}");
 
-                if (character.HasGearEquipped() == true) Console.WriteLine($"5 - Attack Using {character.ItemEquipped.Name}");
+                if (allowedChar.Contains(5)) Console.WriteLine($"5 - Attack Using {character.ItemEquipped.Name}");
 
-                if (currentPlayer.ItemManager.PartyItems.Count != 0) Console.WriteLine("10 - Display current items");
+                if (allowedChar.Contains(10)) Console.WriteLine("10 - Display current items");
 
                 if (int.TryParse(Console.ReadLine(), out int Y))
                 {

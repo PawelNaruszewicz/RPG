@@ -42,18 +42,19 @@
 
 
                 _chatDisplay.DisplayTurn(characterThatAttacks);
-                int actionToMake = DecideAction(characterThatAttacks);
-                UseAction(actionToMake, characterThatAttacks, targetCharacter);
+                DecideAction(characterThatAttacks);
+                UseAction(characterThatAttacks, targetCharacter);
 
                 _gameManager.VerifyBattleState(_currentPlayer, _oppositePlayer);
             }
         }
-        private int DecideAction(Character characterThatAttacks)
+        private void DecideAction(Character characterThatAttacks)
         {
             int actionToMake;
             if (_currentPlayer.IsHuman)
             {
-                actionToMake = _chatDisplay.GetAction(characterThatAttacks, _currentPlayer);
+                List<int> allowedChar = CheckAvailableMoves(characterThatAttacks);
+                actionToMake = _chatDisplay.DisplayAvailableAction(allowedChar, characterThatAttacks, _currentPlayer);
             }
             else
             {
@@ -61,7 +62,15 @@
                 Thread.Sleep(1000);
             }
 
-            return actionToMake;
+            _battleActioToTake = actionToMake switch
+            {
+                1 => BattleAction.BasicAttack,
+                2 => BattleAction.Nothing,
+                3 => BattleAction.ConsumableItem,
+                4 => BattleAction.EquipItem,
+                5 => BattleAction.GearAttack,
+                _ => BattleAction.Nothing
+            };
         }
         private int AIGetAction(Character characterThatAttacks)
         {
@@ -90,20 +99,28 @@
             }
             return chosenAction;
         }
-        //to do refaktor tutaj się przyda, jest najebane różnnych rzeczy, battle odpowiada za za dużo rzeczy?
-        private void UseAction(int chosenAction, Character characterThatAttacks, Character targetCharacter)
+        private List<int> CheckAvailableMoves(Character characterThatAttacks)
         {
-            //TO DO DODAĆ ENUM NA AKCJE
+            List<int> allowedChar = new List<int> { 1, 2 };
+            if (_currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedChar.Add(3);
+            if (_currentPlayer.ItemManager.PartyItems.Count != 0 || characterThatAttacks.HasGearEquipped()) allowedChar.Add(4);
+            if (characterThatAttacks.HasGearEquipped()) allowedChar.Add(5);
+            if (_currentPlayer.ItemManager.PartyItems.Count != 0) allowedChar.Add(10);
 
-            if (chosenAction == 2)
+            return allowedChar;
+        }
+        private void UseAction(Character characterThatAttacks, Character targetCharacter)
+        {
+
+            if (_battleActioToTake == BattleAction.Nothing)
                 characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
-            else if (chosenAction == 3)
+            else if (_battleActioToTake == BattleAction.ConsumableItem)
             {
                 //usuwanie po idkach gdy dodam więcej potków, tak jak w itemkach
                 characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.PartyConsumableItems[0]);
                 _currentPlayer.ItemManager.PartyConsumableItems.Remove(_currentPlayer.ItemManager.PartyConsumableItems[0]);
             }
-            else if (chosenAction == 4)
+            else if (_battleActioToTake == BattleAction.EquipItem)
             {
                 if (characterThatAttacks.HasGearEquipped())
                 {
@@ -115,7 +132,7 @@
                 }
 
             }
-            else if (chosenAction == 5)
+            else if (_battleActioToTake == BattleAction.GearAttack)
             {
                 characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
             }
@@ -155,5 +172,5 @@
 
 
     }
-    public enum BattleAction { Nothing, BasicAttack, GearAttack, ConsumableItem, Item}
+    public enum BattleAction { BasicAttack, Nothing, ConsumableItem, EquipItem, GearAttack }
 }
