@@ -50,7 +50,12 @@ namespace TheCoreBattle
             AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
             HitAccuracy hitChance = character.ItemEquipped.Attack.GetHitChance();
 
-            if(Random.Shared.NextDouble() > hitChance.chanceToHit)
+            if (target.Modifier != null)
+            {
+                attackData = target.Modifier.ReduceAttack(attackData);
+            }
+
+            if (Random.Shared.NextDouble() > hitChance.chanceToHit)
             {
                 chatDisplay.DisplayMissedAttack(character, target);
             }
@@ -59,17 +64,21 @@ namespace TheCoreBattle
                 target.CurrentHealth = target.CurrentHealth - attackData.Damage;
                 chatDisplay.DisplayWeaponAttack(character, target, attackData);
             }
-
         }
     }
     public class BasicAction : IAction
     {
         public void Run(Character character, Character target, ChatDisplay chatDisplay)
         {
-                AttackResult attackData = character.BasicAttack.GetAttackDamage();
-                target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+            AttackResult attackData = character.BasicAttack.GetAttackDamage();
+            
+            if(target.Modifier!= null)
+            {
+                attackData = target.Modifier.ReduceAttack(attackData);
+            }
 
-                chatDisplay.DisplayBasicAttack(character, target, attackData);
+            target.CurrentHealth = target.CurrentHealth - attackData.Damage;
+            chatDisplay.DisplayBasicAttack(character, target, attackData);
 
         }
     }

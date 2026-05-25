@@ -85,6 +85,7 @@
                     chosenAction = Random.Shared.Next(1, 3);
                 }
             }
+            //todo SPRWADZ, BO AI WYWALA OUT OF EXCEPTION JAK WYBIERA ITEM MAJĄĆ 0 
             else if (characterThatAttacks.HasGearEquipped() == false)
             {
                 if (Random.Shared.Next(0, 2) == 0) chosenAction = 4;

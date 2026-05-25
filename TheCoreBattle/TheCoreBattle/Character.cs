@@ -12,6 +12,7 @@
         public GearAttack UseGearAction => new GearAttack();
         public Item? ItemEquipped { get; set; }
         public GearInteraction EquipGear { get; } = new GearInteraction();
+        public Modifier Modifier { get; }
 
         private int _hp;
         public int CurrentHealth
@@ -25,6 +26,13 @@
             MaxHealth = hp;
             CurrentHealth = hp;
             Team = team;
+        }
+        public Character(int hp, Team team, Modifier modifier)
+        {
+            MaxHealth = hp;
+            CurrentHealth = hp;
+            Team = team;
+            Modifier = modifier;
         }
         public override string ToString()
         {

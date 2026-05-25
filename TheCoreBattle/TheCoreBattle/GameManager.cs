@@ -110,6 +110,18 @@
             }
             else if (currentBattleIndex == 2)
             {
+                Character stoneAmarok = new StoneAmarok();
+                Character stoneAmarokTwo = new StoneAmarok();
+                _monsterPlayer.AddCharacterToMyTeam(stoneAmarok);
+                _monsterPlayer.AddCharacterToMyTeam(stoneAmarokTwo);
+
+                Potion potion = new Potion();
+                Potion potionTwo = new Potion();
+                _monsterPlayer.ItemManager.AddConsumableItem(potion);
+                _monsterPlayer.ItemManager.AddConsumableItem(potionTwo);
+            }
+            else if (currentBattleIndex == 3)
+            {
                 Character theUncodedOne = new UncodedOne();
                 _monsterPlayer.AddCharacterToMyTeam(theUncodedOne);
                 Potion potion = new Potion();

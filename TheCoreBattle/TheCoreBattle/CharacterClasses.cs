@@ -23,6 +23,12 @@ namespace TheCoreBattle
         public override IAttack BasicAttack { get; } = new UnravellAttack();
         public UncodedOne() : base(15, Team.Enemy) { }
     }
+    public class StoneAmarok : Character
+    {
+        public override string Name => "Stone Amarok";
+        public override IAttack BasicAttack { get; } = new Punch();
+        public StoneAmarok() : base(4, Team.Enemy, new StoneArmor()) { }
+    }
     public class VinFletcher : Character
     {
         public override string Name => "Vin Fletcher";

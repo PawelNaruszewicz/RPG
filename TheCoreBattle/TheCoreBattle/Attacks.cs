@@ -25,7 +25,7 @@
     public class SwordAttack : IAttack
     {
         public string Name => "Sword Swing";
-        public AttackResult GetAttackDamage() => new AttackResult(2);
+        public AttackResult GetAttackDamage() => new AttackResult(4);
         public HitAccuracy GetHitChance() => new HitAccuracy(1);
 
     }
