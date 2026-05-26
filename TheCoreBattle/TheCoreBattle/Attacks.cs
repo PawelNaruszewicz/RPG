@@ -11,9 +11,6 @@
         public string Name => "Bone Crunch";
         public AttackResult GetAttackDamage() => new AttackResult(Random.Shared.Next(2));
         public HitAccuracy GetHitChance() => new HitAccuracy(1);
-
-
-
     }
     public class UnravellAttack : IAttack
     {

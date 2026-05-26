@@ -115,14 +115,19 @@
         {
             //TO DO ADD AI 
             int indexOfCharacter;
-
             if (_oppositePlayer.myCharacterList.Count == 1) return _oppositePlayer.myCharacterList[0];
+
+            if (!_currentPlayer.IsHuman)
+            {
+                indexOfCharacter = Random.Shared.Next(_oppositePlayer.myCharacterList.Count);
+            }
             else
             {
-                Console.WriteLine();
-                Console.WriteLine("Pick which character you want to attack?");
+
                 while (true)
                 {
+                    Console.WriteLine();
+                    Console.WriteLine("Pick which character you want to attack?");
                     _oppositePlayer.DisplayAllTeamCharacters();
                     if (int.TryParse(Console.ReadLine(), out int I))
                     {
