@@ -37,12 +37,13 @@
             {
 
                 Character characterThatAttacks = _currentPlayer.myCharacterList[i];
-                Character targetCharacter = _oppositePlayer.myCharacterList[0];
+                //Character targetCharacter = _oppositePlayer.myCharacterList[0];
                 _chatDisplay.DisplayBattleState(_currentPlayer, _oppositePlayer, characterThatAttacks);
 
 
                 _chatDisplay.DisplayTurn(characterThatAttacks);
                 DecideAction(characterThatAttacks);
+                Character targetCharacter = GetTargetCharacter();
                 UseAction(characterThatAttacks, targetCharacter);
 
                 _gameManager.VerifyBattleState(_currentPlayer, _oppositePlayer);
@@ -109,6 +110,31 @@
             if (_currentPlayer.ItemManager.PartyItems.Count != 0) allowedChar.Add(10);
 
             return allowedChar;
+        }
+        public Character GetTargetCharacter()
+        {
+            //TO DO ADD AI 
+            int indexOfCharacter;
+
+            if (_oppositePlayer.myCharacterList.Count == 1) return _oppositePlayer.myCharacterList[0];
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Pick which character you want to attack?");
+                while (true)
+                {
+                    _oppositePlayer.DisplayAllTeamCharacters();
+                    if (int.TryParse(Console.ReadLine(), out int I))
+                    {
+                        if (I <= _oppositePlayer.myCharacterList.Count)
+                        {
+                            indexOfCharacter = I;
+                            break;
+                        }
+                    }
+                }
+            }
+            return _oppositePlayer.myCharacterList[indexOfCharacter];
         }
         private void UseAction(Character characterThatAttacks, Character targetCharacter)
         {

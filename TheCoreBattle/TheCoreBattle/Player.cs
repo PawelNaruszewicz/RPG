@@ -24,6 +24,13 @@
             if (characterToRemove.HasGearEquipped()) ItemManager.ManipulateEquippedItem(characterToRemove, characterToRemove.ItemEquipped);
             myCharacterList.Remove(characterToRemove);
         }
+        public void DisplayAllTeamCharacters()
+        {
+            for(int i = 0; i <myCharacterList.Count; i++)
+            {
+                Console.WriteLine($"{i} - {myCharacterList[i].Name}");
+            }
+        }
     }
     public enum Team { Player, Enemy }
 
