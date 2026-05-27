@@ -6,13 +6,9 @@
         public Team Team;
         public abstract IAttack BasicAttack { get; }
 
-        public DoNothing DoNothingAction { get; } = new DoNothing();
-        public UsePotion UsePotionAction { get; } = new UsePotion();
-        public BasicAction UseBasicAction => new BasicAction();
-        public GearAttack UseGearAction => new GearAttack();
+        public CharacterActionsHandler CharacterActions { get; } = new CharacterActionsHandler();
         public Item? ItemEquipped { get; set; }
-        public GearInteraction EquipGear { get; } = new GearInteraction();
-        public Modifier Modifier { get; }
+        public Modifier? Modifier { get; }
 
         private int _hp;
         public int CurrentHealth

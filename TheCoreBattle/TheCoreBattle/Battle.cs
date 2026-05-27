@@ -145,18 +145,18 @@
         {
 
             if (_battleActioToTake == BattleAction.Nothing)
-                characterThatAttacks.DoNothingAction.Run(characterThatAttacks);
+                characterThatAttacks.CharacterActions.DoNothingAction.Run(characterThatAttacks);
             else if (_battleActioToTake == BattleAction.ConsumableItem)
             {
                 //usuwanie po idkach gdy dodam więcej potków, tak jak w itemkach
-                characterThatAttacks.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.PartyConsumableItems[0]);
+                characterThatAttacks.CharacterActions.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.PartyConsumableItems[0]);
                 _currentPlayer.ItemManager.PartyConsumableItems.Remove(_currentPlayer.ItemManager.PartyConsumableItems[0]);
             }
             else if (_battleActioToTake == BattleAction.EquipItem)
             {
                 if (characterThatAttacks.HasGearEquipped())
                 {
-                    characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, characterThatAttacks.ItemEquipped);
+                    characterThatAttacks.CharacterActions.EquipItems.ManipulateItems(characterThatAttacks, _currentPlayer, characterThatAttacks.ItemEquipped);
                 }
                 else
                 {
@@ -166,11 +166,11 @@
             }
             else if (_battleActioToTake == BattleAction.GearAttack)
             {
-                characterThatAttacks.UseGearAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
+                characterThatAttacks.CharacterActions.UseGearAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
             }
             else
             {
-                characterThatAttacks.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
+                characterThatAttacks.CharacterActions.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
             }
             _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
@@ -179,7 +179,7 @@
         {
             if (!_currentPlayer.IsHuman)
             {
-                characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(0));
+                characterThatAttacks.CharacterActions.EquipItems.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(0));
             }
             else
             {
@@ -193,16 +193,13 @@
                     {
                         if (result >= 0 && result < _currentPlayer.ItemManager.PartyItems.Count)
                         {
-                            characterThatAttacks.EquipGear.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
+                            characterThatAttacks.CharacterActions.EquipItems.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
                             break;
                         }
                     }
                 }
             }
         }
-
-
-
     }
     public enum BattleAction { BasicAttack, Nothing, ConsumableItem, EquipItem, GearAttack }
 }

@@ -20,7 +20,7 @@ namespace TheCoreBattle
         void Run(Character character, ConsumableItem item);
     }
 
-    public class GearInteraction
+    public class ItemInteractions
     {
         public void ManipulateItems(Character character, Player player, Item item)
         {
@@ -47,6 +47,7 @@ namespace TheCoreBattle
     {
         public void Run(Character character, Character target, ChatDisplay chatDisplay)
         {
+            if (character.ItemEquipped == null) return;
             AttackResult attackData = character.ItemEquipped.Attack.GetAttackDamage();
             HitAccuracy hitChance = character.ItemEquipped.Attack.GetHitChance();
 
