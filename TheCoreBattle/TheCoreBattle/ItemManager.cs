@@ -78,12 +78,12 @@ namespace TheCoreBattle
         }
         public void MoveItems(ItemManager playerItems, ItemManager opponentItems)
         {
-            for (int i = 0; i < opponentItems.PartyItems.Count; i++)
+            for (int i = opponentItems.PartyItems.Count; i > 0; i--)
             {
                 playerItems.PartyItems.Add(opponentItems.PartyItems[i]);
                 opponentItems.PartyItems.Remove(opponentItems.PartyItems[i]);
             }
-            for (int i = 0; i < opponentItems.PartyConsumableItems.Count; i++)
+            for (int i = opponentItems.PartyItems.Count; i > 0; i--)
             {
                 playerItems.PartyConsumableItems.Add(opponentItems.PartyConsumableItems[i]);
                 opponentItems.PartyConsumableItems.Remove(opponentItems.PartyConsumableItems[i]);

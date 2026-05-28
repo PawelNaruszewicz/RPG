@@ -37,7 +37,6 @@
             {
 
                 Character characterThatAttacks = _currentPlayer.myCharacterList[i];
-                //Character targetCharacter = _oppositePlayer.myCharacterList[0];
                 _chatDisplay.DisplayBattleState(_currentPlayer, _oppositePlayer, characterThatAttacks);
 
 
@@ -139,10 +138,18 @@
                     }
                 }
             }
+            //tutaj wywala, gdy czasem nie złapie tego, że gra się skończyła
+            // potecnajlny problem, gdy zabije akcja pierwszeog potwora, do sprawdzenia
             return _oppositePlayer.myCharacterList[indexOfCharacter];
         }
         private void UseAction(Character characterThatAttacks, Character targetCharacter)
         {
+            //TO DO, PRZEROBIĆ TO BY BYŁ ACTION HANDLER?
+            //IBattleAction
+            //Interfejsce 
+            //Ppublic interface IBATTLEACTION { void Execture (battlecontext context};
+            //public class BasicAttackAction : ibattleaction
+            //selectedAction.Execute(context);
 
             if (_battleActioToTake == BattleAction.Nothing)
                 characterThatAttacks.CharacterActions.DoNothingAction.Run(characterThatAttacks);

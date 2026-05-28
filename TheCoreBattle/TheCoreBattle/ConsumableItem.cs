@@ -19,6 +19,5 @@ namespace TheCoreBattle
         {
             character.CurrentHealth = character.CurrentHealth + healthValue;
         }
-
     }
 }
