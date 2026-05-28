@@ -45,6 +45,7 @@
                 DecideAction(characterThatAttacks);
                 Character targetCharacter = GetTargetCharacter();
                 UseAction(characterThatAttacks, targetCharacter);
+                _gameManager.CheckIfCharacterDies(_oppositePlayer);
 
                 _gameManager.VerifyBattleState(_currentPlayer, _oppositePlayer);
             }
@@ -60,7 +61,7 @@
             else
             {
                 actionToMake = AIGetAction(characterThatAttacks);
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
 
             _battleActioToTake = actionToMake switch
@@ -86,10 +87,9 @@
                     chosenAction = Random.Shared.Next(1, 3);
                 }
             }
-            //todo SPRWADZ, BO AI WYWALA OUT OF EXCEPTION JAK WYBIERA ITEM MAJĄĆ 0 
-            else if (characterThatAttacks.HasGearEquipped() == false)
+            else if (characterThatAttacks.HasGearEquipped() == true || _currentPlayer.ItemManager.PartyItems.Count >0)
             {
-                if (Random.Shared.Next(0, 2) == 0) chosenAction = 4;
+                    if (Random.Shared.Next(0, 2) == 0) chosenAction = 4;
             }
             else if (characterThatAttacks.HasGearEquipped())
             {
@@ -172,7 +172,6 @@
             {
                 characterThatAttacks.CharacterActions.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
             }
-            _gameManager.CheckIfCharacterDies(_oppositePlayer);
             Console.WriteLine();
         }
         private void DecideWhichItemToEquip(Character characterThatAttacks)

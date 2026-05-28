@@ -83,6 +83,7 @@ namespace TheCoreBattle
 
         }
     }
-    public record AttackResult(int Damage);
+    public record AttackResult(int Damage, DamageType damageType);
     public record HitAccuracy(float chanceToHit);
+    public enum DamageType { Normal, Decoding}
 }

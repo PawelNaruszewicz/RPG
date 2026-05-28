@@ -5,7 +5,7 @@
         private Player _playerOne;
         private Player _playerTwo;
         private Player _monsterPlayer;
-        
+
         ChatDisplay chatDisplay = new ChatDisplay();
 
         public bool RunGame { get; private set; } = true;
@@ -63,11 +63,15 @@
         }
         public void CheckIfCharacterDies(Player oppositePlayer)
         {
-            if (oppositePlayer.myCharacterList[0].CurrentHealth <= 0)
+            for (int i = 0; i < oppositePlayer.myCharacterList.Count; i++)
             {
-                chatDisplay.DisplayCharacterDeath(oppositePlayer.myCharacterList[0]);
-                oppositePlayer.CharacterDied(oppositePlayer.myCharacterList[0]);
+                if (oppositePlayer.myCharacterList[i].CurrentHealth <= 0)
+                {
+                    chatDisplay.DisplayCharacterDeath(oppositePlayer.myCharacterList[i]);
+                    oppositePlayer.CharacterDied(oppositePlayer.myCharacterList[i]);
+                }
             }
+
         }
         public void CheckIfGameOver(Player player, Player playerTwo)
         {
@@ -91,7 +95,7 @@
                 Character enemySkeleton = new Skeleton();
                 _monsterPlayer.AddCharacterToMyTeam(enemySkeleton);
             }
-            else if (currentBattleIndex == 1)
+            else if (currentBattleIndex == 3)
             {
                 Character enemySkeleton1 = new Skeleton();
                 Character enemySkeleton2 = new Skeleton();
@@ -120,7 +124,7 @@
                 _monsterPlayer.ItemManager.AddConsumableItem(potion);
                 _monsterPlayer.ItemManager.AddConsumableItem(potionTwo);
             }
-            else if (currentBattleIndex == 3)
+            else if (currentBattleIndex == 1)
             {
                 Character theUncodedOne = new UncodedOne();
                 _monsterPlayer.AddCharacterToMyTeam(theUncodedOne);

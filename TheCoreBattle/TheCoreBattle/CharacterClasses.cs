@@ -9,7 +9,7 @@ namespace TheCoreBattle
         //jeżeli bym chciał 
         //  public override IAttack BasicAttack => new Punch();
         public override IAttack BasicAttack { get; } = new Punch();
-        public Hero(string name) : base(25, Team.Player) => Name = name;
+        public Hero(string name) : base(25, Team.Player, new ObjectSight()) => Name = name;
     }
     public class Skeleton : Character
     {

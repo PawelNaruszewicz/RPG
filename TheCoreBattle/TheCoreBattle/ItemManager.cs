@@ -51,14 +51,14 @@ namespace TheCoreBattle
         }
         public Item GetItemByID(int ID)
         {
-            if (PartyItems[ID] != null) return PartyItems[ID];
+            if(ID >=0 && ID < PartyItems.Count)
+                return PartyItems[ID];
             else
             {
                 Console.WriteLine("Haven't found an item in this ID, returning default dagger");
                 return new Dagger();
             }
         }
-        //TO DO, TO POWINNO ZARZĄDZAĆ ADD / REMOVE ITEM CHYBA?
         public void ManipulateEquippedItem(Character character, Item item)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
