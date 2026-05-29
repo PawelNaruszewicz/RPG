@@ -38,8 +38,6 @@
 
                 Character characterThatAttacks = _currentPlayer.myCharacterList[i];
                 _chatDisplay.DisplayBattleState(_currentPlayer, _oppositePlayer, characterThatAttacks);
-
-
                 _chatDisplay.DisplayTurn(characterThatAttacks);
 
                 IBattleAction action = DecideAction(characterThatAttacks);
@@ -65,6 +63,7 @@
         private IBattleAction DecideAction(Character characterThatAttacks)
         {
             int actionToMake;
+
             if (_currentPlayer.IsHuman)
             {
                 List<int> allowedChar = CheckAvailableMoves(characterThatAttacks);
@@ -80,8 +79,8 @@
             {
                 1 => new BasicAttackAction(),
                 2 => new DoNothing(),
-                3 => new UsePotionAction(),
-                4 => new EquipItemAction(),
+                3 => new PotionAction(),
+                4 => new ItemAction(),
                 5 => new GearAttack(),
                 _ => new DoNothing(),
             };
@@ -124,9 +123,17 @@
 
             return allowedChar;
         }
+        private List<IBattleAction> GetAvailableActions(Character characterThatAttacks)
+        {
+            //TO DO AI NIECH UŻYJE TEGO
+            List <IBattleAction> allowedActions = new List<IBattleAction> { new DoNothing(), new BasicAttackAction()};
+            if (_currentPlayer.ItemManager.PartyConsumableItems.Count != 0) allowedActions.Add(new PotionAction());
+            if (_currentPlayer.ItemManager.PartyItems.Count != 0 || characterThatAttacks.HasGearEquipped()) allowedActions.Add(new ItemAction());
+            if (characterThatAttacks.HasGearEquipped()) allowedActions.Add(new GearAttack());
+            return allowedActions;
+        }
         public Character GetTargetCharacter()
         {
-            //TO DO ADD AI 
             int indexOfCharacter;
             if (_oppositePlayer.myCharacterList.Count == 1) return _oppositePlayer.myCharacterList[0];
 
@@ -157,5 +164,4 @@
             return _oppositePlayer.myCharacterList[indexOfCharacter];
         }
     }
-    //public enum BattleAction { BasicAttack, Nothing, ConsumableItem, EquipItem, GearAttack }
 }

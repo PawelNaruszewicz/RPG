@@ -7,18 +7,6 @@ namespace TheCoreBattle
         float HitChance { get; }
         AttackResult GetAttackDamage();
     }
-    public interface IAction
-    {
-        void Run(Character character, Character target, ChatDisplay chatDisplay);
-    }
-    public interface IDoNothingAction
-    {
-        void Run(Character character);
-    }
-    public interface ISingleCharacterActionWithItem
-    {
-        void Run(Character character, ConsumableItem item);
-    }
     public interface IBattleAction
     {
         void Execute(BattleContext context);
@@ -39,7 +27,7 @@ namespace TheCoreBattle
         }
     }
 
-    public class UsePotionAction : IBattleAction
+    public class PotionAction : IBattleAction
     {
         public void Execute(BattleContext context)
         {
@@ -48,52 +36,41 @@ namespace TheCoreBattle
             Console.WriteLine($"{context.CurrentCharacter.Name} healh is {context.CurrentCharacter.CurrentHealth}/ {context.CurrentCharacter.MaxHealth}");
         }
     }
-    public class EquipItemAction : IBattleAction
+    public class ItemAction : IBattleAction
     {
         public void Execute(BattleContext context)
         {
-            while (true)
+            if(context.CurrentPlayer.IsHuman)
             {
-                Console.WriteLine("Pick which item do you want to equip?");
-                context.CurrentPlayer.ItemManager.DisplayCurrentItems();
-
-                string input = "";
-                if (int.TryParse(Console.ReadLine(), out int result))
+                while (true)
                 {
-                    if (result >= 0 && result < context.CurrentPlayer.ItemManager.PartyItems.Count)
+                    Console.WriteLine("Pick which item do you want to equip?");
+                    context.CurrentPlayer.ItemManager.DisplayCurrentItems();
+
+                    string input = "";
+                    if (int.TryParse(Console.ReadLine(), out int result))
                     {
-                        context.CurrentCharacter.CharacterActions.EquipItems.ManipulateItems(context.CurrentCharacter, context.CurrentPlayer, context.CurrentPlayer.ItemManager.GetItemByID(result));
-                        break;
+                        if (result >= 0 && result < context.CurrentPlayer.ItemManager.PartyItems.Count)
+                        {
+                            context.CurrentPlayer.ItemManager.ManipulateEquippedItem(context.CurrentCharacter, context.CurrentPlayer.ItemManager.GetItemByID(result));
+                            break;
+                        }
                     }
                 }
             }
-        }
-        private void DecideWhichItemToEquip(BattleContext context)
-        {
+            else
+            {
+                context.CurrentPlayer.ItemManager.ManipulateEquippedItem(context.CurrentCharacter, context.CurrentPlayer.ItemManager.GetItemByID(0));
+            }
 
         }
     }
-    public class ItemInteractions
-    {
-        public void ManipulateItems(Character character, Player player, Item item)
-        {
-            player.ItemManager.ManipulateEquippedItem(character, item);
-        }
-    }
+
     public class DoNothing : IBattleAction
     {
         public void Execute(BattleContext context)
         {
             Console.WriteLine($"{context.CurrentCharacter.Name} did NOTHING");
-        }
-    }
-    public class UsePotion : ISingleCharacterActionWithItem
-    {
-        public void Run(Character character, ConsumableItem item)
-        {
-            item.UseItem(character);
-            Console.WriteLine($"{character.Name} used {item.Name}!");
-            Console.WriteLine($"{character.Name} healh is {character.CurrentHealth}/ {character.MaxHealth}");
         }
     }
     public class GearAttack : IBattleAction
@@ -120,22 +97,6 @@ namespace TheCoreBattle
             }
         }
     }
-    //public class BasicAction : IAction
-    //{
-    //    public void Run(Character character, Character target, ChatDisplay chatDisplay)
-    //    {
-    //        AttackResult attackData = character.BasicAttack.GetAttackDamage();
-
-    //        if (target.Modifier != null)
-    //        {
-    //            attackData = target.Modifier.ReduceAttack(attackData);
-    //        }
-
-    //        target.CurrentHealth = target.CurrentHealth - attackData.Damage;
-    //        chatDisplay.DisplayBasicAttack(character, target, attackData);
-
-    //    }
-    //}
     public record AttackResult(int Damage, DamageType damageType);
     public enum DamageType { Normal, Decoding }
 }

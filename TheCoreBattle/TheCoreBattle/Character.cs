@@ -5,8 +5,6 @@
         public abstract string Name { get; }
         public Team Team;
         public abstract IAttack BasicAttack { get; }
-
-        public CharacterActionsHandler CharacterActions { get; } = new CharacterActionsHandler();
         public Item? ItemEquipped { get; set; }
         public Modifier? Modifier { get; }
 
