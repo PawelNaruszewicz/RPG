@@ -5,7 +5,7 @@ namespace TheCoreBattle
     {
         public DoNothing DoNothingAction { get; } = new DoNothing();
         public UsePotion UsePotionAction { get; } = new UsePotion();
-        public BasicAction UseBasicAction => new BasicAction();
+        public BasicAttackAction UseBasicAction => new BasicAttackAction();
         public GearAttack UseGearAction => new GearAttack();
         public ItemInteractions EquipItems { get; } = new ItemInteractions();
 

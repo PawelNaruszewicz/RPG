@@ -10,7 +10,6 @@
 
         private ChatDisplay? _chatDisplay;
         private GameManager _gameManager;
-        private BattleAction _battleActioToTake;
         public void Run(GameManager gameManager, Player playerOne, Player playerTwo)
         {
             _gameManager = gameManager;
@@ -26,6 +25,7 @@
 
             while (_gameManager.RunGame)
             {
+
                 PlayTurn();
                 _currentPlayer = (_currentPlayer == _playerOne) ? _playerTwo : _playerOne;
                 _oppositePlayer = (_currentPlayer == _playerOne) ? _playerTwo : _playerOne;
@@ -41,15 +41,28 @@
 
 
                 _chatDisplay.DisplayTurn(characterThatAttacks);
-                DecideAction(characterThatAttacks);
-                Character targetCharacter = GetTargetCharacter();
-                UseAction(characterThatAttacks, targetCharacter);
-                _gameManager.CheckIfCharacterDies(_oppositePlayer);
 
+                IBattleAction action = DecideAction(characterThatAttacks);
+                Character targetCharacter = GetTargetCharacter();
+
+                BattleContext context = new BattleContext()
+                {
+                    CurrentCharacter = characterThatAttacks,
+                    Target = targetCharacter,
+
+                    CurrentPlayer = _currentPlayer,
+                    OppositePlayer = _oppositePlayer,
+                    
+                    ChatDisplay = _chatDisplay,
+                    GameManager = _gameManager
+                };
+                action.Execute(context);
+
+                _gameManager.CheckIfCharacterDies(_oppositePlayer);
                 _gameManager.VerifyBattleState(_currentPlayer, _oppositePlayer);
             }
         }
-        private void DecideAction(Character characterThatAttacks)
+        private IBattleAction DecideAction(Character characterThatAttacks)
         {
             int actionToMake;
             if (_currentPlayer.IsHuman)
@@ -63,15 +76,16 @@
                 Thread.Sleep(100);
             }
 
-            _battleActioToTake = actionToMake switch
+            IBattleAction battleAction = actionToMake switch
             {
-                1 => BattleAction.BasicAttack,
-                2 => BattleAction.Nothing,
-                3 => BattleAction.ConsumableItem,
-                4 => BattleAction.EquipItem,
-                5 => BattleAction.GearAttack,
-                _ => BattleAction.Nothing
+                1 => new BasicAttackAction(),
+                2 => new DoNothing(),
+                3 => new UsePotionAction(),
+                4 => new EquipItemAction(),
+                5 => new GearAttack(),
+                _ => new DoNothing(),
             };
+            return battleAction;
         }
         private int AIGetAction(Character characterThatAttacks)
         {
@@ -142,70 +156,6 @@
             // potecnajlny problem, gdy zabije akcja pierwszeog potwora, do sprawdzenia
             return _oppositePlayer.myCharacterList[indexOfCharacter];
         }
-        private void UseAction(Character characterThatAttacks, Character targetCharacter)
-        {
-            //TO DO, PRZEROBIĆ TO BY BYŁ ACTION HANDLER?
-            //IBattleAction
-            //Interfejsce 
-            //Ppublic interface IBATTLEACTION { void Execture (battlecontext context};
-            //public class BasicAttackAction : ibattleaction
-            //selectedAction.Execute(context);
-
-            if (_battleActioToTake == BattleAction.Nothing)
-                characterThatAttacks.CharacterActions.DoNothingAction.Run(characterThatAttacks);
-            else if (_battleActioToTake == BattleAction.ConsumableItem)
-            {
-                //usuwanie po idkach gdy dodam więcej potków, tak jak w itemkach
-                characterThatAttacks.CharacterActions.UsePotionAction.Run(characterThatAttacks, _currentPlayer.ItemManager.PartyConsumableItems[0]);
-                _currentPlayer.ItemManager.PartyConsumableItems.Remove(_currentPlayer.ItemManager.PartyConsumableItems[0]);
-            }
-            else if (_battleActioToTake == BattleAction.EquipItem)
-            {
-                if (characterThatAttacks.HasGearEquipped())
-                {
-                    characterThatAttacks.CharacterActions.EquipItems.ManipulateItems(characterThatAttacks, _currentPlayer, characterThatAttacks.ItemEquipped);
-                }
-                else
-                {
-                    DecideWhichItemToEquip(characterThatAttacks);
-                }
-
-            }
-            else if (_battleActioToTake == BattleAction.GearAttack)
-            {
-                characterThatAttacks.CharacterActions.UseGearAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
-            }
-            else
-            {
-                characterThatAttacks.CharacterActions.UseBasicAction.Run(characterThatAttacks, targetCharacter, _chatDisplay);
-            }
-            Console.WriteLine();
-        }
-        private void DecideWhichItemToEquip(Character characterThatAttacks)
-        {
-            if (!_currentPlayer.IsHuman)
-            {
-                characterThatAttacks.CharacterActions.EquipItems.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(0));
-            }
-            else
-            {
-                while (true)
-                {
-                    Console.WriteLine("Pick which item do you want to equip?");
-                    _currentPlayer.ItemManager.DisplayCurrentItems();
-
-                    string input = "";
-                    if (int.TryParse(Console.ReadLine(), out int result))
-                    {
-                        if (result >= 0 && result < _currentPlayer.ItemManager.PartyItems.Count)
-                        {
-                            characterThatAttacks.CharacterActions.EquipItems.ManipulateItems(characterThatAttacks, _currentPlayer, _currentPlayer.ItemManager.GetItemByID(result));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
-    public enum BattleAction { BasicAttack, Nothing, ConsumableItem, EquipItem, GearAttack }
+    //public enum BattleAction { BasicAttack, Nothing, ConsumableItem, EquipItem, GearAttack }
 }

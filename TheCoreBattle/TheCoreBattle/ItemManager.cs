@@ -80,6 +80,7 @@ namespace TheCoreBattle
         {
             for (int i = opponentItems.PartyItems.Count; i > 0; i--)
             {
+                //WYWALA
                 playerItems.PartyItems.Add(opponentItems.PartyItems[i]);
                 opponentItems.PartyItems.Remove(opponentItems.PartyItems[i]);
             }
