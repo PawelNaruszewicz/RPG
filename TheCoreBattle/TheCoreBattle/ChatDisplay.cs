@@ -20,7 +20,7 @@
             Console.WriteLine($"Team {playerWon.Team} has won!");
             Console.WriteLine($"{playerLost.Team} has been defetead");
         }
-        public int DisplayAvailableAction(List<int> allowedChar, Character character, Player currentPlayer)
+        public int GetActionNumber(List<int> allowedChar, Character character, Player currentPlayer)
         {
             int actionIntToReturn;
 

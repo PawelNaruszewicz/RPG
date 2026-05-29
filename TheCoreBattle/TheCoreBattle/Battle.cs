@@ -40,7 +40,7 @@
                 _chatDisplay.DisplayBattleState(_currentPlayer, _oppositePlayer, characterThatAttacks);
                 _chatDisplay.DisplayTurn(characterThatAttacks);
 
-                IBattleAction action = DecideAction(characterThatAttacks);
+                IBattleAction action = GetAction(characterThatAttacks);
                 Character targetCharacter = GetTargetCharacter();
 
                 BattleContext context = new BattleContext()
@@ -60,18 +60,18 @@
                 _gameManager.VerifyBattleState(_currentPlayer, _oppositePlayer);
             }
         }
-        private IBattleAction DecideAction(Character characterThatAttacks)
+        private IBattleAction GetAction(Character characterThatAttacks)
         {
             int actionToMake;
 
             if (_currentPlayer.IsHuman)
             {
                 List<int> allowedChar = CheckAvailableMoves(characterThatAttacks);
-                actionToMake = _chatDisplay.DisplayAvailableAction(allowedChar, characterThatAttacks, _currentPlayer);
+                actionToMake = _chatDisplay.GetActionNumber(allowedChar, characterThatAttacks, _currentPlayer);
             }
             else
             {
-                actionToMake = AIGetAction(characterThatAttacks);
+                actionToMake = AIGetActionNumber(characterThatAttacks);
                 Thread.Sleep(100);
             }
 
@@ -86,11 +86,19 @@
             };
             return battleAction;
         }
-        private int AIGetAction(Character characterThatAttacks)
+        private int AIGetActionNumber(Character characterThatAttacks)
         {
+            int chosenAction = 1;
+
+            //List<IBattleAction> availableActions = GetAvailableActions(characterThatAttacks);
+            //if(availableActions.Contains(availableActions.OfType<PotionAction>)&& characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
+            //{
+            //    if (Random.Shared.Next(0, 4) == 0) chosenAction = 3;
+            //}
+
+
             //TODO REFACTOR, BRZYDKIE LOSOWANIE IMO
             //KAŻDE DODANIE AKCJI POWOUJE, ŻE W AI TEŻ MUSZĘ INKREMENTOWAĆ ILOŚC AKCJI 
-            int chosenAction = 1;
             if (_currentPlayer.ItemManager.PartyConsumableItems.Count != 0 && characterThatAttacks.CurrentHealth < (characterThatAttacks.MaxHealth / 2))
             {
                 if (Random.Shared.Next(0, 4) == 0) chosenAction = 3;

@@ -63,7 +63,7 @@
         }
         public void CheckIfCharacterDies(Player oppositePlayer)
         {
-            for (int i = 0; i < oppositePlayer.myCharacterList.Count; i++)
+            for (int i = oppositePlayer.myCharacterList.Count - 1; i > 0; i--)
             {
                 if (oppositePlayer.myCharacterList[i].CurrentHealth <= 0)
                 {

@@ -78,13 +78,12 @@ namespace TheCoreBattle
         }
         public void MoveItems(ItemManager playerItems, ItemManager opponentItems)
         {
-            for (int i = opponentItems.PartyItems.Count; i > 0; i--)
+            for (int i = opponentItems.PartyItems.Count - 1; i > 0; i--)
             {
-                //WYWALA
                 playerItems.PartyItems.Add(opponentItems.PartyItems[i]);
                 opponentItems.PartyItems.Remove(opponentItems.PartyItems[i]);
             }
-            for (int i = opponentItems.PartyItems.Count; i > 0; i--)
+            for (int i = opponentItems.PartyItems.Count - 1; i > 0; i--)
             {
                 playerItems.PartyConsumableItems.Add(opponentItems.PartyConsumableItems[i]);
                 opponentItems.PartyConsumableItems.Remove(opponentItems.PartyConsumableItems[i]);
