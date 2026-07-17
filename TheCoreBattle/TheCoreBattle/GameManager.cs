@@ -50,33 +50,33 @@
             Item dagger2 = new Dagger();
             _playerOne.ItemManager.AddItems(dagger2);
             Item sword = new Sword();
-            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.myCharacterList[0], sword);
+            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.MyCharacterList[0], sword);
 
             Item dagger = new Dagger();
-            _playerTwo.ItemManager.ManipulateEquippedItem(_playerTwo.myCharacterList[0], dagger);
+            _playerTwo.ItemManager.ManipulateEquippedItem(_playerTwo.MyCharacterList[0], dagger);
 
             Item bow = new Bow();
-            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.myCharacterList[1], bow);
+            _playerOne.ItemManager.ManipulateEquippedItem(_playerOne.MyCharacterList[1], bow);
 
             Potion potionEnemy = new Potion();
             _playerTwo.ItemManager.AddConsumableItem(potionEnemy);
         }
         public void CheckIfCharacterDies(Player oppositePlayer)
         {
-            for (int i = oppositePlayer.myCharacterList.Count - 1; i > 0; i--)
+            for (int i = oppositePlayer.MyCharacterList.Count - 1; i >= 0; i--)
             {
-                if (oppositePlayer.myCharacterList[i].CurrentHealth <= 0)
+                if (oppositePlayer.MyCharacterList[i].CurrentHealth <= 0)
                 {
-                    chatDisplay.DisplayCharacterDeath(oppositePlayer.myCharacterList[i]);
-                    oppositePlayer.CharacterDied(oppositePlayer.myCharacterList[i]);
+                    chatDisplay.DisplayCharacterDeath(oppositePlayer.MyCharacterList[i]);
+                    oppositePlayer.CharacterDied(oppositePlayer.MyCharacterList[i]);
                 }
             }
 
         }
         public void CheckIfGameOver(Player player, Player playerTwo)
         {
-            if (player.myCharacterList.Count == 0) EndGame(playerTwo, player);
-            else if (playerTwo.myCharacterList.Count == 0) EndGame(player, playerTwo);
+            if (player.MyCharacterList.Count == 0) EndGame(playerTwo, player);
+            else if (playerTwo.MyCharacterList.Count == 0) EndGame(player, playerTwo);
         }
         public void EndGame(Player playerWon, Player playerLost)
         {
@@ -85,7 +85,7 @@
         }
         public void TryCreateEnemiesForCurrentBattle()
         {
-            if (_monsterPlayer.myCharacterList.Count != 0) return;
+            if (_monsterPlayer.MyCharacterList.Count != 0) return;
             else
             {
                 _playerOne.ItemManager.MoveItems(_playerOne.ItemManager, _playerTwo.ItemManager);

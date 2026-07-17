@@ -33,10 +33,10 @@
         }
         private void PlayTurn()
         {
-            for (int i = 0; i < _currentPlayer.myCharacterList.Count; i++)
+            for (int i = 0; i < _currentPlayer.MyCharacterList.Count; i++)
             {
 
-                Character characterThatAttacks = _currentPlayer.myCharacterList[i];
+                Character characterThatAttacks = _currentPlayer.MyCharacterList[i];
                 _chatDisplay.DisplayBattleState(_currentPlayer, _oppositePlayer, characterThatAttacks);
                 _chatDisplay.DisplayTurn(characterThatAttacks);
 
@@ -143,11 +143,11 @@
         public Character GetTargetCharacter()
         {
             int indexOfCharacter;
-            if (_oppositePlayer.myCharacterList.Count == 1) return _oppositePlayer.myCharacterList[0];
+            if (_oppositePlayer.MyCharacterList.Count == 1) return _oppositePlayer.MyCharacterList[0];
 
             if (!_currentPlayer.IsHuman)
             {
-                indexOfCharacter = Random.Shared.Next(_oppositePlayer.myCharacterList.Count);
+                indexOfCharacter = Random.Shared.Next(_oppositePlayer.MyCharacterList.Count);
             }
             else
             {
@@ -159,7 +159,7 @@
                     _oppositePlayer.DisplayAllTeamCharacters();
                     if (int.TryParse(Console.ReadLine(), out int I))
                     {
-                        if (I <= _oppositePlayer.myCharacterList.Count)
+                        if (I >=0 && I < _oppositePlayer.MyCharacterList.Count)
                         {
                             indexOfCharacter = I;
                             break;
@@ -169,7 +169,7 @@
             }
             //tutaj wywala, gdy czasem nie złapie tego, że gra się skończyła
             // potecnajlny problem, gdy zabije akcja pierwszeog potwora, do sprawdzenia
-            return _oppositePlayer.myCharacterList[indexOfCharacter];
+            return _oppositePlayer.MyCharacterList[indexOfCharacter];
         }
     }
 }

@@ -9,15 +9,15 @@ namespace TheCoreBattle
     }
     public class Potion : ConsumableItem
     {
-        public int healthValue { get; }
+        public int HealthValue { get; }
         public override string Name => "Health Potion";
         public Potion()
         {
-            healthValue = 10;
+            HealthValue = 10;
         }
         public override void UseItem(Character character)
         {
-            character.CurrentHealth = character.CurrentHealth + healthValue;
+            character.CurrentHealth = character.CurrentHealth + HealthValue;
         }
     }
 }

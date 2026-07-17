@@ -44,7 +44,7 @@ namespace TheCoreBattle
             Console.ForegroundColor = ConsoleColor.Green;
             for (int i = 0; i < PartyConsumableItems.Count; i++)
             {
-                Console.WriteLine($"{i} - {PartyItems[i]}");
+                Console.WriteLine($"{i} - {PartyConsumableItems[i]}");
             }
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
@@ -78,7 +78,7 @@ namespace TheCoreBattle
         }
         public void MoveItems(ItemManager playerItems, ItemManager opponentItems)
         {
-            for (int i = opponentItems.PartyItems.Count - 1; i > 0; i--)
+            for (int i = opponentItems.PartyItems.Count - 1; i >= 0; i--)
             {
                 playerItems.PartyItems.Add(opponentItems.PartyItems[i]);
                 opponentItems.PartyItems.Remove(opponentItems.PartyItems[i]);

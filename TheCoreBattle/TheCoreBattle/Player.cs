@@ -2,13 +2,13 @@
 {
     public class Player
     {
-        public List<Character> myCharacterList { get; set; }
+        public List<Character> MyCharacterList { get; set; }
         public Team Team { get; }
         public bool IsHuman { get; }
         public ItemManager ItemManager { get; private set; } = new ItemManager();
         public Player(Team team, bool isHuman)
         {
-            myCharacterList = new List<Character>();
+            MyCharacterList = new List<Character>();
 
             Team = team;
             IsHuman = isHuman;
@@ -17,18 +17,18 @@
         public void AddCharacterToMyTeam(Character character)
         {
             character.Team = Team;
-            myCharacterList.Add(character);
+            MyCharacterList.Add(character);
         }
         public void CharacterDied(Character characterToRemove)
         {
             if (characterToRemove.HasGearEquipped()) ItemManager.ManipulateEquippedItem(characterToRemove, characterToRemove.ItemEquipped);
-            myCharacterList.Remove(characterToRemove);
+            MyCharacterList.Remove(characterToRemove);
         }
         public void DisplayAllTeamCharacters()
         {
-            for(int i = 0; i <myCharacterList.Count; i++)
+            for(int i = 0; i <MyCharacterList.Count; i++)
             {
-                Console.WriteLine($"{i} - {myCharacterList[i].Name}");
+                Console.WriteLine($"{i} - {MyCharacterList[i].Name}");
             }
         }
     }

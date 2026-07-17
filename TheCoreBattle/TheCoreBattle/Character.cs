@@ -3,7 +3,7 @@
     public abstract class Character
     {
         public abstract string Name { get; }
-        public Team Team;
+        public Team Team { get; set; }
         public abstract IAttack BasicAttack { get; }
         public Item? ItemEquipped { get; set; }
         public Modifier? Modifier { get; }

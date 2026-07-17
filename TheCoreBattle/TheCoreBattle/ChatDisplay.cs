@@ -92,7 +92,7 @@
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("========================BATTLE========================");
-            foreach (Character character in currentPlayer.myCharacterList)
+            foreach (Character character in currentPlayer.MyCharacterList)
             {
                 if (character == currentCharacter)
                 {
@@ -104,7 +104,7 @@
 
             }
             Console.WriteLine("--------------------------VS--------------------------");
-            foreach (Character character in playerTwo.myCharacterList)
+            foreach (Character character in playerTwo.MyCharacterList)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\t\t\t{character.Name}\t {character.CurrentHealth}/{character.MaxHealth}");
